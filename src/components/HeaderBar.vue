@@ -4,9 +4,12 @@
       <Icon name="cutlery"></Icon>
       <h1 class="site-title">Cooking Tutorials</h1>
     </router-link>
-    <router-link class="login-link" to="/login">
+    <router-link v-if="!signedIn" class="login-link" to="/login">
       <Icon name="sign-in"></Icon>
       Login
+    </router-link>
+    <router-link v-else class="login-link" to="/account">
+      <img id="header-user-img" :src="userImgSrc"/>
     </router-link>
     </nav>
   </header>
@@ -14,11 +17,22 @@
 
 <script>
 import Icon from 'vue-awesome/components/Icon';
+import store from '@/store';
 
 export default {
   name: 'header-bar',
   components: {
     Icon,
+  },
+  computed: {
+    /* eslint-disable */
+    signedIn: function () {
+      return store.getters.user;
+    },
+    /* eslint-disable */
+    userImgSrc: function () {
+      return store.getters.user.photoURL;
+    },
   },
 };
 </script>
@@ -29,6 +43,12 @@ header {
   color: white;
   padding: 5px;
   position: relative;
+}
+
+#header-user-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 
 .site-title-link {
