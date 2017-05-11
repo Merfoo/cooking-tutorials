@@ -36,7 +36,4 @@ export default {
 </script>
 
 <style>
-.policies {
-  padding: 10px;
-}
 </style>

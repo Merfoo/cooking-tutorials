@@ -9,15 +9,15 @@ import { firebase, authUI } from '@/assets/js/firebase/index';
 
 export default {
   name: 'login',
-  /* eslint-disable */
-  mounted: function () {
+  mounted() {
     let redirectPath = '/';
 
-    if (this.$route.query.redirect)
+    if (this.$route.query.redirect) {
       redirectPath = this.$route.query.redirect;
+    }
 
     authUI.start('#firebase-auth-container', {
-      signInSuccessUrl: '/#' + redirectPath,
+      signInSuccessUrl: `/#${redirectPath}`,
       signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         firebase.auth.FacebookAuthProvider.PROVIDER_ID,

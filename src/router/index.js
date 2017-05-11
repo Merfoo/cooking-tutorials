@@ -6,6 +6,7 @@ import Contact from '@/views/Contact';
 import Login from '@/views/Login';
 import Policies from '@/views/Policies';
 import Account from '@/views/Account';
+import Create from '@/views/Create';
 import store from '@/store/index';
 
 Vue.use(Router);
@@ -41,6 +42,14 @@ const router = new Router({
       path: '/account',
       name: 'Account',
       component: Account,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/create',
+      name: 'Create',
+      component: Create,
       meta: {
         requiresAuth: true,
       },

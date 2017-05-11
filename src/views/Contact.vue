@@ -3,7 +3,7 @@
     <div class="contact-contaner">
       <div id="message"></div>
       <h2>Contact Us</h2>
-      <form class="contact-form" action="/contact/" method="POST" @submit.prevent="onSubmit">
+      <form class="contact-form" @submit.prevent="onSubmit">
         <label for="name">Name</label>
         <input id="name-input" class="user-input" type="text" name="name" placeholder="First and last name" maxlength="20" required/>
 
@@ -22,6 +22,9 @@
 </template>
 
 <script>
+/* global $ */
+/* global grecaptcha */
+
 import Recaptcha from '@/components/Recaptcha';
 
 export default {
@@ -31,12 +34,10 @@ export default {
   },
   methods: {
     onSubmit: () => {
-      /* eslint-disable no-undef */
       $.post('/contact', {
         name: document.getElementById('name-input').value,
         email: document.getElementById('email-input').value,
         content: document.getElementById('content-input').value,
-        /* eslint-disable no-undef */
         'g-recaptcha-response': grecaptcha.getResponse(),
       }).done((data) => {
         const $message = $('#message');
@@ -51,7 +52,6 @@ export default {
         }
       });
 
-      /* eslint-disable no-undef */
       grecaptcha.reset();
     },
   },
@@ -60,7 +60,6 @@ export default {
 
 <style>
 .contact {
-  padding: 10px;
   display: flex;
   justify-content: center;
 }

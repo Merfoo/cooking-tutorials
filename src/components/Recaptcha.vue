@@ -3,6 +3,8 @@
 </template>
 
 <script>
+/* global grecaptcha */
+
 export default {
   data() {
     return {
@@ -10,10 +12,8 @@ export default {
       recaptchaId: 0,
     };
   },
-  /* eslint-disable */
-  mounted: function() {
+  mounted() {
     if (window.grecaptcha) {
-      /* eslint-disable no-undef */
       this.recaptchaId = grecaptcha.render(document.getElementsByClassName('g-recaptcha')[0], { sitekey: this.sitekey });
     }
   },

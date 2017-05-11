@@ -24,27 +24,23 @@ import { firebase } from '@/assets/js/firebase/index';
 export default {
   name: 'account',
   computed: {
-    /* eslint-disable */
-    userImgSrc: function () {
+    userImgSrc() {
       return store.getters.user.photoURL;
     },
-    /* eslint-disable */
-    userName: function () {
+    userName() {
       return store.getters.user.displayName;
     },
-    /* eslint-disable */
-    userEmail: function () {
+    userEmail() {
       return store.getters.user.email;
     },
   },
   methods: {
-    /* eslint-disable */
-    signOut: function () {
+    signOut() {
       firebase.auth().signOut().then(() => {
         this.$router.push('home');
       });
     },
-  }
+  },
 };
 </script>
 

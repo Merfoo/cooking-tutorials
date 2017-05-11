@@ -19,6 +19,7 @@ Promise.all([attachAuthHandler()]).then(() => {
   new Vue({
     el: '#app',
     router,
+    store,
     template: '<App/>',
     components: { App },
   });

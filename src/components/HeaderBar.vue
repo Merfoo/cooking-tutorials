@@ -25,12 +25,10 @@ export default {
     Icon,
   },
   computed: {
-    /* eslint-disable */
-    signedIn: function () {
+    signedIn() {
       return store.getters.user;
     },
-    /* eslint-disable */
-    userImgSrc: function () {
+    userImgSrc() {
       return store.getters.user.photoURL;
     },
   },
