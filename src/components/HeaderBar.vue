@@ -8,9 +8,14 @@
       <Icon name="sign-in"></Icon>
       Login
     </router-link>
-    <router-link v-else class="login-link" to="/account">
-      <img id="header-user-img" :src="userImgSrc"/>
-    </router-link>
+    <div v-else class="signed-in-container">
+      <router-link to="/create" class="create-link">
+        Create
+      </router-link>
+      <router-link class="login-link" to="/account">
+        <img id="header-user-img" :src="userImgSrc"/>
+      </router-link>
+    </div>
     </nav>
   </header>
 </template>
@@ -93,5 +98,14 @@ header {
 .navitem a {
   text-decoration: none;
   color: white;
+}
+
+.signed-in-container {
+  display: inline-block;
+}
+
+.create-link {
+  color: white;
+  text-decoration: none;
 }
 </style>
