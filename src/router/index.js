@@ -7,6 +7,7 @@ import Login from '@/views/Login';
 import Policies from '@/views/Policies';
 import Account from '@/views/Account';
 import Create from '@/views/Create';
+import Recipe from '@/views/Recipe';
 import store from '@/store/index';
 
 Vue.use(Router);
@@ -53,6 +54,11 @@ const router = new Router({
       meta: {
         requiresAuth: true,
       },
+    },
+    {
+      path: '/recipe/:id',
+      name: 'Recipe',
+      component: Recipe,
     },
   ],
 });

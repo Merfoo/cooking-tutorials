@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     create() {
-      recipe.create(this.title, this.title, this.$store.getters.user.uid);
+      recipe.create(this.title, this.content, this.$store.getters.user.uid);
       this.title = '';
       this.content = '';
     },

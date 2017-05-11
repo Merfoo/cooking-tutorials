@@ -9,23 +9,23 @@ export default {
     const contentQuery = ref.child('recipeContents').push();
 
     userQuery.set({
-      recipe: recipeQuery.key,
+      recipeKey: recipeQuery.key,
     });
 
     recipeQuery.set({
-      title: titleQuery.key,
-      content: contentQuery.key,
+      titleKey: titleQuery.key,
+      contentKey: contentQuery.key,
       userId,
     });
 
     titleQuery.set({
       title,
-      recipe: recipeQuery.key,
+      recipeKey: recipeQuery.key,
     });
 
     contentQuery.set({
       content,
-      recipe: recipeQuery.key,
+      recipeKey: recipeQuery.key,
     });
   },
 };
