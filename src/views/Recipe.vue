@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { database } from '@/assets/js/firebase/index';
+import recipe from '@/assets/js/recipe';
 
 export default {
   name: 'recipe',
@@ -17,19 +17,10 @@ export default {
     };
   },
   methods: {
-    update(recipeId) {
-      const ref = database.ref();
-
-      ref.child(`recipes/${recipeId}`).once('value').then((recipeData) => {
-        const recipe = recipeData.val();
-
-        ref.child(`recipeTitles/${recipe.titleKey}`).once('value').then((titleData) => {
-          this.title = titleData.val().title;
-        });
-
-        ref.child(`recipeContents/${recipe.contentKey}`).once('value').then((contentData) => {
-          this.content = contentData.val().content;
-        });
+    update(recipeKey) {
+      recipe.get(recipeKey).then((recipeData) => {
+        this.title = recipeData.title;
+        this.content = recipeData.content;
       });
     },
   },
