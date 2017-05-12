@@ -22,7 +22,6 @@
 
 <script>
 import Icon from 'vue-awesome/components/Icon';
-import store from '@/store';
 
 export default {
   name: 'header-bar',
@@ -31,10 +30,10 @@ export default {
   },
   computed: {
     signedIn() {
-      return store.getters.user;
+      return this.$store.getters.user;
     },
     userImgSrc() {
-      return store.getters.user.photoURL;
+      return this.$store.getters.user.photoURL;
     },
   },
 };

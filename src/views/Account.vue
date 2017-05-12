@@ -18,20 +18,19 @@
 </template>
 
 <script>
-import store from '@/store';
 import { firebase } from '@/assets/js/firebase/index';
 
 export default {
   name: 'account',
   computed: {
     userImgSrc() {
-      return store.getters.user.photoURL;
+      return this.$store.getters.user.photoURL;
     },
     userName() {
-      return store.getters.user.displayName;
+      return this.$store.getters.user.displayName;
     },
     userEmail() {
-      return store.getters.user.email;
+      return this.$store.getters.user.email;
     },
   },
   methods: {

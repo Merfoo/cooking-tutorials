@@ -48,9 +48,11 @@ export default {
         const recipes = [];
         const recipeDatasVal = recipeDatas.val();
 
-        Object.keys(recipeDatasVal).forEach((key) => {
-          recipes.push(key);
-        });
+        if (recipeDatasVal) {
+          Object.keys(recipeDatasVal).forEach((key) => {
+            recipes.push(key);
+          });
+        }
 
         resolve(recipes);
       }, (error) => {
