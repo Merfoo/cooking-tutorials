@@ -15,7 +15,6 @@
 
 <script>
 import recipe from '@/assets/js/recipe';
-import comment from '@/assets/js/comment';
 import CreateComment from '@/components/CreateComment';
 import Comment from '@/components/Comment';
 
@@ -29,14 +28,22 @@ export default {
     };
   },
   methods: {
-    update(recipeKey) {
+    update(recipeKey, oldRecipeKey) {
       recipe.get(recipeKey).then((recipeData) => {
         this.title = recipeData.title;
         this.content = recipeData.content;
       });
 
-      comment.getFirstComments(this.recipeKey, 5).then((comments) => {
-        this.comments = comments;
+      if (oldRecipeKey) {
+        recipe.unwatchComments(oldRecipeKey);
+      }
+
+      recipe.watchComments(recipeKey, (data) => {
+        this.comments = [];
+
+        Object.keys(data).forEach((key) => {
+          this.comments.push(data[key]);
+        });
       });
     },
   },
@@ -50,11 +57,14 @@ export default {
     Comment,
   },
   beforeRouteUpdate(to, from, next) {
-    this.update(to.params.id);
+    this.update(to.params.id, from.params.id);
     next();
   },
   mounted() {
-    this.update(this.recipeKey);
+    this.update(this.recipeKey, null);
+  },
+  beforeDestroy() {
+    recipe.unwatchComments(this.recipeKey);
   },
 };
 </script>

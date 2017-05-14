@@ -61,4 +61,35 @@ export default {
       });
     });
   },
+  getFirstComments(recipeKey, count) {
+    return new Promise((resolve, reject) => {
+      const ref = database.ref();
+
+      ref.child(`recipeComments/${recipeKey}`).limitToFirst(count).once('value').then((commentDatas) => {
+        const comments = [];
+        const commentDatasVal = commentDatas.val();
+
+        if (commentDatasVal) {
+          Object.keys(commentDatasVal).forEach((key) => {
+            comments.push(commentDatasVal[key]);
+          });
+        }
+
+        resolve(comments);
+      }, (error) => {
+        console.log(error);
+        reject(error);
+      });
+    });
+  },
+  watchComments(recipeKey, callback) {
+    database.ref().child(`recipeComments/${recipeKey}`).on('value', (snapshot) => {
+      callback(snapshot.val());
+    });
+  },
+  unwatchComments(recipeKey) {
+    // NOTE: This will remove all callbacks for the 'value' event
+    // since no callback was specified in "off"
+    database.ref().child(`recipeComments/${recipeKey}`).off('value');
+  },
 };

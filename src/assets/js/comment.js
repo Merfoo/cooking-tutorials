@@ -26,25 +26,4 @@ export default {
       });
     });
   },
-  getFirstComments(recipeKey, count) {
-    return new Promise((resolve, reject) => {
-      const ref = database.ref();
-
-      ref.child(`recipeComments/${recipeKey}`).limitToFirst(count).once('value').then((commentDatas) => {
-        const comments = [];
-        const commentDatasVal = commentDatas.val();
-
-        if (commentDatasVal) {
-          Object.keys(commentDatasVal).forEach((key) => {
-            comments.push(commentDatasVal[key]);
-          });
-        }
-
-        resolve(comments);
-      }, (error) => {
-        console.log(error);
-        reject(error);
-      });
-    });
-  },
 };
