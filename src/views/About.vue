@@ -1,6 +1,6 @@
 <template>
-  <div class="about">
-    <article id="about">
+  <div class="container">
+    <article>
       <h2>About</h2>
       <p>
         Cooking tutorials is a website meant to contain cooking tutorials
@@ -15,6 +15,3 @@ export default {
   name: 'about',
 };
 </script>
-
-<style>
-</style>

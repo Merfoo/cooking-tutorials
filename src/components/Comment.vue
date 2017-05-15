@@ -1,7 +1,9 @@
 <template>
-  <div class="comment">
-    <p>{{ username }}</p>
-    <p>{{ content }}</p>
+  <div class="card">
+    <div class="card-block">
+      <h5 class="card-title">{{ username }}</h5>
+      <p class="card-text">{{ content }}</p>
+    </div>
   </div>
 </template>
 
@@ -20,11 +22,8 @@ export default {
 };
 </script>
 
-<style>
-.comment {
-  padding: 1px 10px;
-  margin: 10px 0;
-  background: lightgrey;
-  border-radius: 1px;
+<style scoped>
+.card {
+  margin-bottom: 5px;
 }
 </style>

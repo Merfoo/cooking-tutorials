@@ -1,6 +1,7 @@
 <template>
-  <div class="home">
-    <FeaturedRecipe v-for="recipeKey in recipeKeys" :recipeKey="recipeKey" :key="recipeKey">Hello</FeaturedRecipe>
+  <div class="container">
+      <h4>Featured Recipes</h4>
+      <FeaturedRecipe v-for="recipeKey in recipeKeys" :recipeKey="recipeKey" :key="recipeKey">Hello</FeaturedRecipe>
   </div>
 </template>
 

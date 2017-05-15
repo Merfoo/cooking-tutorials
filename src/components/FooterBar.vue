@@ -1,9 +1,13 @@
 <template>
   <footer class="footer">
-    <div class="link-container">
-      <router-link class="footer-link" to="/about">About</router-link>
-      <router-link class="footer-link" to="/policies">Policies</router-link>
-      <router-link class="footer-link" to="/contact">Contact</router-link>
+    <div class="container">
+      <div class="row">
+        <ul class="nav">
+          <router-link class="nav-link" to="/about">About</router-link>
+          <router-link class="nav-link" to="/policies">Policies</router-link>
+          <router-link class="nav-link" to="/contact">Contact</router-link>
+        </ul>
+      </div>
     </div>
   </footer>
 </template>
@@ -14,29 +18,8 @@ export default {
 };
 </script>
 
-<style>
-.footer {
-  background-color: lightgray;
-  width: 100%;
-  height: 50px;
-}
-
-.link-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-.footer-link {
-  margin-left: 20px;
-  margin-right: 20px;
-  text-decoration: none;
+<style scoped>
+.nav-link {
   color: black;
-}
-
-.footer-link:hover {
-  border-bottom: 2px solid blue;
-  color: blue;
 }
 </style>

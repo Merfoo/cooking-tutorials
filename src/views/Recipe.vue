@@ -1,14 +1,12 @@
 <template>
-  <div class="recipe">
-    <div class="container">
-      <div class="recipe-container">
-        <h2>{{ title }}</h2>
-        <p>{{ content }}</p>
-      </div>
-      <div class="comments">
-        <CreateComment :recipeKey="recipeKey"></CreateComment>
-        <Comment v-for="comment in comments" :comment="comment"></Comment>
-      </div>
+  <div class="container">
+    <div class="recipe-container">
+      <h2>{{ title }}</h2>
+      <p>{{ content }}</p>
+    </div>
+    <div class="comments">
+      <CreateComment :recipeKey="recipeKey" class="create-comment"></CreateComment>
+      <Comment v-for="comment in comments" :comment="comment" :key="comment"></Comment>
     </div>
   </div>
 </template>
@@ -69,13 +67,8 @@ export default {
 };
 </script>
 
-<style>
-.recipe {
-  display: flex;
-  justify-content: center;
-}
-
-.recipe-container {
+<style scoped>
+.create-comment {
   margin-bottom: 10px;
 }
 </style>

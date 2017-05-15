@@ -1,6 +1,11 @@
 <template>
-  <div class="featured-recipe" @click="click">
-    <h2>{{ title }}</h2>
+  <div class="card">
+    <div class="card-block">
+      <h5 class="card-title">{{ title }}</h5>
+      <router-link :to="url" class="btn btn-primary">
+        View Recipe
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -20,23 +25,16 @@ export default {
       this.title = recipeData.title;
     });
   },
-  methods: {
-    click() {
-      this.$router.push(`/recipe/${this.recipeKey}`);
+  computed: {
+    url() {
+      return `/recipe/${this.recipeKey}`;
     },
   },
 };
 </script>
 
-<style>
-.featured-recipe {
-  padding: 20px;
-  margin: 20px;
-  border: 1px solid black;
-}
-
-.featured-recipe:hover {
-  background-color: grey;
-  cursor: pointer;
+<style scoped>
+.card {
+  margin-bottom: 10px;
 }
 </style>

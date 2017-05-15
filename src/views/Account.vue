@@ -1,17 +1,11 @@
 <template>
-  <div class="account">
-    <div class="account-container">
-      <h2>Account</h2>
-      <div class="account-info-container">
-        <div class="account-img-container">
-          <img id="account-img":src="userImgSrc"/>
-          <h3>{{ userName }}</h3>
-        </div>
-        <div class="account-details">
-          <h4>Email</h4>
-          <p>{{ userEmail }}</p>
-        </div>
-        <button id="signOut" @click="signOut">Sign Out</button>
+  <div class="container">
+    <div class="card">
+      <img class="card-img-top" :src="userImgSrc" :alt="userImgAlt">
+      <div class="card-block">
+        <h4 class="card-title">{{ userName }}</h4>
+        <p class="card-text">{{ userEmail }}</p>
+        <button class="btn btn-primary" @click="signOut">Sign Out</button>
       </div>
     </div>
   </div>
@@ -25,6 +19,9 @@ export default {
   computed: {
     userImgSrc() {
       return this.$store.getters.user.photoURL;
+    },
+    userImgAlt() {
+      return `${this.userName}'s picture`;
     },
     userName() {
       return this.$store.getters.user.displayName;
@@ -43,27 +40,8 @@ export default {
 };
 </script>
 
-<style>
-.account {
-  display: flex;
-  justify-content: center;
-}
-
-.account-img-container {
-  display: flex;
-  align-content: center;
-}
-
-.account-img-container h3{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  margin-left: 20px;
-}
-
-#account-img {
-  width: 50px;
-  height: 50px;
+<style scoped>
+.card-img-top {
+  width: 10rem;
 }
 </style>

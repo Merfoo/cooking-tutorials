@@ -17,7 +17,6 @@
     "firebase": "^3.9.0",
     "firebaseui": "^1.0.1",
     "vue": "^2.2.6",
-    "vue-awesome": "^2.3.1",
     "vue-router": "^2.3.1",
     "vuex": "^2.3.1",
     "vuex-router-sync": "^4.1.2"

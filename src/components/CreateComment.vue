@@ -1,11 +1,12 @@
 <template>
-  <div class="create-comment">
-    <form v-if="signedIn"class="create-comment-form" @submit.prevent="create">
-      <textarea type="textarea" name="create-comment-content" v-model="content" placeholder="Comment..." required/>
-      <br/>
-      <input type="submit" value="Comment"/>
+  <div>
+    <form v-if="signedIn" @submit.prevent="create">
+      <div class="form-group">
+        <textarea class="form-control" type="textarea" v-model="content" placeholder="Comment..." required/>
+      </div>
+      <button class="btn btn-primary" type="submit">Comment</button>
     </form>
-    <button v-else @click="signIn">Sign in to comment!</button>
+    <button v-else class="btn btn-primary" @click="signIn">Sign in to comment!</button>
   </div>
 </template>
 
@@ -42,7 +43,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .create-comment-form textarea {
   width: 100%;
 }

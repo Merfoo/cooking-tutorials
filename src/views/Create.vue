@@ -1,15 +1,16 @@
 <template>
-  <div class="create">
+  <div class="container">
     <h2>Create</h2>
-    <form class="create-form" @submit.prevent="create">
-      <label for="new-recipe-title">Title</label>
-      <input type="text" name="new-recipe-title" v-model="title" required/>
-
-      <label for="new-recipe-content">Content</label>
-      <textarea type="textarea" name="new-recipe-content" v-model="content" required/>
-
-      <br/>
-      <input type="submit" value="Create"/>
+    <form @submit.prevent="create">
+      <div class="form-group">
+        <label for="new-recipe-title">Title</label>
+        <input class="form-control" type="text" name="new-recipe-title" v-model="title" required/>
+      </div>
+      <div class="form-group">
+        <label for="new-recipe-content">Content</label>
+        <textarea class="form-control" type="textarea" name="new-recipe-content" v-model="content" required/>
+      </div>
+      <button class="btn btn-primary" type="submit">Create</button>
     </form>
   </div>
 </template>
@@ -32,12 +33,6 @@ export default {
       this.content = '';
     },
   },
+
 };
 </script>
-
-<style>
-.create-form label {
-  display: block;
-  margin-bottom: 5px;
-}
-</style>
