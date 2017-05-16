@@ -3,7 +3,10 @@
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <router-link to="/" class="navbar-brand">Cooking Tutorials</router-link>
+    <router-link to="/" class="navbar-brand">
+      <img class="logo" src="../assets/imgs/cooking-tutorials-logo.svg"/>
+      Cooking Tutorials
+    </router-link>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ml-auto">
         <li v-if="!signedIn" class="nav-item">
@@ -42,6 +45,11 @@ export default {
 </script>
 
 <style scoped>
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
 #userImg {
   width: 2rem;
   border-radius: 50%;
