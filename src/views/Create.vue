@@ -10,6 +10,7 @@
         <label for="new-recipe-content">Content</label>
         <textarea class="form-control" type="textarea" name="new-recipe-content" v-model="content" required/>
       </div>
+      <IngredientList :ingredients="ingredients"></IngredientList>
       <button class="btn btn-primary" type="submit">Create</button>
     </form>
   </div>
@@ -17,6 +18,7 @@
 
 <script>
 import recipe from '@/assets/js/recipe';
+import IngredientList from '@/components/IngredientList';
 
 export default {
   name: 'create',
@@ -24,15 +26,19 @@ export default {
     return {
       title: '',
       content: '',
+      ingredients: [],
     };
   },
   methods: {
     create() {
-      recipe.create(this.title, this.content, this.$store.getters.user.uid);
+      recipe.create(this.title, this.content, this.ingredients, this.$store.getters.user.uid);
       this.title = '';
       this.content = '';
+      this.ingredients = [];
     },
   },
-
+  components: {
+    IngredientList,
+  },
 };
 </script>

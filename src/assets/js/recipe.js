@@ -1,12 +1,14 @@
 import { database } from '@/assets/js/firebase/index';
 
 export default {
-  create(title, content, userId) {
+  create(title, content, ingredients, userId) {
     const ref = database.ref();
     const recipeKey = ref.child('recipes').push({ userId }).key;
+    const filteredIngredients = ingredients.filter(entry => /\S/.test(entry));
 
     ref.child(`recipeTitles/${recipeKey}`).set({ title });
     ref.child(`recipeContents/${recipeKey}`).set({ content });
+    ref.child(`recipeIngredients/${recipeKey}`).set({ ingredients: filteredIngredients });
     ref.child(`users/${userId}/recipesMade/${recipeKey}`).set({ recipeKey });
   },
   get(recipeKey) {
@@ -14,11 +16,13 @@ export default {
       const ref = database.ref();
       const titlePromise = ref.child(`recipeTitles/${recipeKey}`).once('value');
       const contentPromise = ref.child(`recipeContents/${recipeKey}`).once('value');
+      const ingredientsPromise = ref.child(`recipeIngredients/${recipeKey}`).once('value');
 
-      Promise.all([titlePromise, contentPromise]).then((recipeData) => {
+      Promise.all([titlePromise, contentPromise, ingredientsPromise]).then((recipeData) => {
         resolve({
           title: recipeData[0].val().title,
           content: recipeData[1].val().content,
+          ingredients: recipeData[2].val().ingredients,
         });
       }, (error) => {
         console.log(error);
@@ -84,7 +88,13 @@ export default {
   },
   watchComments(recipeKey, callback) {
     database.ref().child(`recipeComments/${recipeKey}`).on('value', (snapshot) => {
-      callback(snapshot.val());
+      let comments = snapshot.val();
+
+      if (comments === null) {
+        comments = {};
+      }
+
+      callback(comments);
     });
   },
   unwatchComments(recipeKey) {

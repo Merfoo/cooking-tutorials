@@ -3,6 +3,12 @@
     <div class="recipe-container">
       <h2>{{ title }}</h2>
       <p>{{ content }}</p>
+      <div class="ingredients-container">
+        <h5>Ingredients</h5>
+        <ul class="list-group">
+          <li v-for="ingredient in ingredients" class="list-group-item">{{ ingredient }}</li>
+        </ul>
+      </div>
     </div>
     <div class="comments">
       <CreateComment :recipeKey="recipeKey" class="create-comment"></CreateComment>
@@ -22,6 +28,7 @@ export default {
     return {
       title: '',
       content: '',
+      ingredients: [],
       comments: [],
     };
   },
@@ -30,6 +37,7 @@ export default {
       recipe.get(recipeKey).then((recipeData) => {
         this.title = recipeData.title;
         this.content = recipeData.content;
+        this.ingredients = recipeData.ingredients;
       });
 
       if (oldRecipeKey) {
@@ -70,5 +78,13 @@ export default {
 <style scoped>
 .create-comment {
   margin-bottom: 10px;
+}
+
+.list-group-item {
+  margin-bottom: 5px;
+}
+
+.ingredients-container {
+  margin-bottom: 5px;
 }
 </style>
