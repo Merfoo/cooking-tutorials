@@ -9,6 +9,7 @@
           <li v-for="ingredient in ingredients" class="list-group-item">{{ ingredient }}</li>
         </ul>
       </div>
+      <ImageCarousel :recipeKey="recipeKey"></ImageCarousel>
     </div>
     <div class="comments">
       <CreateComment :recipeKey="recipeKey" class="create-comment"></CreateComment>
@@ -19,6 +20,7 @@
 
 <script>
 import recipe from '@/assets/js/recipe';
+import ImageCarousel from '@/components/ImageCarousel';
 import CreateComment from '@/components/CreateComment';
 import Comment from '@/components/Comment';
 
@@ -59,6 +61,7 @@ export default {
     },
   },
   components: {
+    ImageCarousel,
     CreateComment,
     Comment,
   },

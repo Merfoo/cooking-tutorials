@@ -1,7 +1,11 @@
 <template>
   <div class="container">
       <h4>Featured Recipes</h4>
-      <FeaturedRecipe v-for="recipeKey in recipeKeys" :recipeKey="recipeKey" :key="recipeKey">Hello</FeaturedRecipe>
+      <div class="row">
+        <div class="col-md-6 recipe-container" v-for="recipeKey in recipeKeys">
+          <FeaturedRecipe class="recipe" :recipeKey="recipeKey" :key="recipeKey">Hello</FeaturedRecipe>
+        </div>
+     </div>
   </div>
 </template>
 
@@ -26,3 +30,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.recipe-container {
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-bottom: 10px;
+}
+
+.recipe {
+  height: 100%;
+}
+</style>

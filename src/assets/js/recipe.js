@@ -1,8 +1,9 @@
-import { database } from '@/assets/js/firebase/index';
+import { database, storage } from '@/assets/js/firebase/index';
 
 export default {
-  create(title, content, ingredients, userId) {
+  create(userId, title, content, ingredients, thumbnailFile, images) {
     const ref = database.ref();
+    const storageRef = storage.ref();
     const recipeKey = ref.child('recipes').push({ userId }).key;
     const filteredIngredients = ingredients.filter(entry => /\S/.test(entry));
 
@@ -10,6 +11,27 @@ export default {
     ref.child(`recipeContents/${recipeKey}`).set({ content });
     ref.child(`recipeIngredients/${recipeKey}`).set({ ingredients: filteredIngredients });
     ref.child(`users/${userId}/recipesMade/${recipeKey}`).set({ recipeKey });
+
+    if (thumbnailFile) {
+      storageRef.child(`${recipeKey}/thumbnail.jpg`).put(thumbnailFile);
+    }
+
+    const imageFilenames = [];
+
+    for (let imageIndex = 0; imageIndex < images.length; imageIndex++) {
+      const image = images[imageIndex];
+
+      if (image) {
+        const filename = `${Date.now()}-${image.name}`;
+
+        imageFilenames.push(filename);
+        storageRef.child(`${recipeKey}/images/${filename}`).put(image);
+      }
+    }
+
+    if (imageFilenames.length > 0) {
+      ref.child(`recipeImageFilenames/${recipeKey}`).set({ imageFilenames });
+    }
   },
   get(recipeKey) {
     return new Promise((resolve, reject) => {
@@ -19,10 +41,18 @@ export default {
       const ingredientsPromise = ref.child(`recipeIngredients/${recipeKey}`).once('value');
 
       Promise.all([titlePromise, contentPromise, ingredientsPromise]).then((recipeData) => {
+        let ingredients = recipeData[2].val();
+
+        if (ingredients) {
+          ingredients = ingredients.ingredients;
+        } else {
+          ingredients = [];
+        }
+
         resolve({
           title: recipeData[0].val().title,
           content: recipeData[1].val().content,
-          ingredients: recipeData[2].val().ingredients,
+          ingredients,
         });
       }, (error) => {
         console.log(error);
@@ -41,6 +71,32 @@ export default {
       }, (error) => {
         console.log(error);
         reject(error);
+      });
+    });
+  },
+  getThumbnailUrl(recipeKey) {
+    return new Promise((resolve) => {
+      storage.ref().child(`${recipeKey}/thumbnail.jpg`).getDownloadURL().then((url) => {
+        resolve(url);
+      })
+      .catch(() => {
+        resolve(null);
+      });
+    });
+  },
+  getImageUrls(recipeKey) {
+    return new Promise((resolve) => {
+      database.ref().child(`recipeImageFilenames/${recipeKey}`).once('value').then((imageFilenamesData) => {
+        const imageFilenames = imageFilenamesData.val().imageFilenames;
+        const promises = [];
+
+        for (let filenameIndex = 0; filenameIndex < imageFilenames.length; filenameIndex++) {
+          promises.push(storage.ref().child(`${recipeKey}/images/${imageFilenames[filenameIndex]}`).getDownloadURL());
+        }
+
+        Promise.all(promises).then((urls) => {
+          resolve(urls);
+        });
       });
     });
   },

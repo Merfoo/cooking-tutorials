@@ -24,6 +24,7 @@ module.exports = {
   },
   // add your custom rules here
   'rules': {
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'func-names': ['error', 'never'],
     'no-param-reassign': ['error', { 'props': false }],
     // don't require .vue extension when importing

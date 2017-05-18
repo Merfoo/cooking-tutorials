@@ -11,6 +11,16 @@
         <textarea class="form-control" type="textarea" name="new-recipe-content" v-model="content" required/>
       </div>
       <IngredientList :ingredients="ingredients"></IngredientList>
+      <div class="form-group">
+        <p>Thumbnail (125px by 125px)</p>
+        <div>
+          {{ thumbnailFilename }}
+        </div>
+        <label class="btn btn-secondary">
+          Browse <input type="file" accept=".jpg" hidden @change="updateThumbnailFile">
+        </label>
+      </div>
+      <ImageList :images="images"></ImageList>
       <button class="btn btn-primary" type="submit">Create</button>
     </form>
   </div>
@@ -19,6 +29,7 @@
 <script>
 import recipe from '@/assets/js/recipe';
 import IngredientList from '@/components/IngredientList';
+import ImageList from '@/components/ImageList';
 
 export default {
   name: 'create',
@@ -27,18 +38,39 @@ export default {
       title: '',
       content: '',
       ingredients: [],
+      thumbnailFilename: '',
+      thumbnailFile: null,
+      images: [],
     };
   },
   methods: {
     create() {
-      recipe.create(this.title, this.content, this.ingredients, this.$store.getters.user.uid);
+      recipe.create(
+        this.$store.getters.user.uid,
+        this.title,
+        this.content,
+        this.ingredients,
+        this.thumbnailFile,
+        this.images,
+      );
+
       this.title = '';
       this.content = '';
       this.ingredients = [];
     },
+    updateThumbnailFile(e) {
+      this.thumbnailFilename = '';
+      this.thumbnailFile = null;
+
+      if (e.target.files.length > 0) {
+        this.thumbnailFile = e.target.files[0];
+        this.thumbnailFilename = this.thumbnailFile.name;
+      }
+    },
   },
   components: {
     IngredientList,
+    ImageList,
   },
 };
 </script>
