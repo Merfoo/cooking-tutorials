@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'ingredient-list',
+  name: 'ingredient-list-input',
   props: [
     'ingredients',
   ],

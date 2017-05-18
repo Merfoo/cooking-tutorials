@@ -10,17 +10,9 @@
         <label for="new-recipe-content">Content</label>
         <textarea class="form-control" type="textarea" name="new-recipe-content" v-model="content" required/>
       </div>
-      <IngredientList :ingredients="ingredients"></IngredientList>
-      <div class="form-group">
-        <p>Thumbnail (125px by 125px)</p>
-        <div>
-          {{ thumbnailFilename }}
-        </div>
-        <label class="btn btn-secondary">
-          Browse <input type="file" accept=".jpg" hidden @change="updateThumbnailFile">
-        </label>
-      </div>
-      <ImageList :images="images"></ImageList>
+      <IngredientListInput :ingredients="ingredients"></IngredientListInput>
+      <ThumbnailInput :thumbnailFile="thumbnailFile" @updateThumbnailFile="updateThumbnailFile"></ThumbnailInput>
+      <ImageListInput :imageFiles="imageFiles"></ImageListInput>
       <button class="btn btn-primary" type="submit">Create</button>
     </form>
   </div>
@@ -28,8 +20,9 @@
 
 <script>
 import recipe from '@/assets/js/recipe';
-import IngredientList from '@/components/IngredientList';
-import ImageList from '@/components/ImageList';
+import IngredientListInput from '@/components/IngredientListInput';
+import ThumbnailInput from '@/components/ThumbnailInput';
+import ImageListInput from '@/components/ImageListInput';
 
 export default {
   name: 'create',
@@ -38,9 +31,8 @@ export default {
       title: '',
       content: '',
       ingredients: [],
-      thumbnailFilename: '',
       thumbnailFile: null,
-      images: [],
+      imageFiles: [],
     };
   },
   methods: {
@@ -51,26 +43,21 @@ export default {
         this.content,
         this.ingredients,
         this.thumbnailFile,
-        this.images,
+        this.imageFiles,
       );
 
       this.title = '';
       this.content = '';
       this.ingredients = [];
     },
-    updateThumbnailFile(e) {
-      this.thumbnailFilename = '';
-      this.thumbnailFile = null;
-
-      if (e.target.files.length > 0) {
-        this.thumbnailFile = e.target.files[0];
-        this.thumbnailFilename = this.thumbnailFile.name;
-      }
+    updateThumbnailFile(thumbnailFile) {
+      this.thumbnailFile = thumbnailFile;
     },
   },
   components: {
-    IngredientList,
-    ImageList,
+    IngredientListInput,
+    ThumbnailInput,
+    ImageListInput,
   },
 };
 </script>
