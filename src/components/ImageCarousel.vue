@@ -6,7 +6,7 @@
     </ol>
     <div class="carousel-inner" role="listbox">
       <div v-for="(url, index) in imageUrls" class="carousel-item">
-        <img class="carousel-img rounded mx-auto d-block" :src="url">
+        <img class="carousel-img rounded mx-auto d-block" :src="url" :alt="imgAlt(index)">
       </div>
     </div>
     <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
@@ -32,6 +32,11 @@ export default {
     return {
       imageUrls: [],
     };
+  },
+  methods: {
+    imgAlt(index) {
+      return `Slideshow image ${index}`;
+    },
   },
   mounted() {
     recipe.getImageUrls(this.recipeKey).then((urls) => {

@@ -10,9 +10,9 @@
         <label for="new-recipe-content">Content</label>
         <textarea class="form-control" type="textarea" name="new-recipe-content" v-model="content" required/>
       </div>
-      <IngredientListInput :ingredients="ingredients"></IngredientListInput>
-      <ThumbnailInput :thumbnailFile="thumbnailFile" @updateThumbnailFile="updateThumbnailFile"></ThumbnailInput>
-      <ImageListInput :imageFiles="imageFiles"></ImageListInput>
+      <IngredientListInput :ingredients="ingredients" @addIngredient="addIngredient" @removeIngredient="removeIngredient" @updateIngredient="updateIngredient"></IngredientListInput>
+      <ThumbnailInput :thumbnailFile.sync="thumbnailFile"></ThumbnailInput>
+      <ImageListInput :imageFiles="imageFiles" @addImageFile="addImageFile" @removeImageFile="removeImageFile" @updateImageFile="updateImageFile"></ImageListInput>
       <button class="btn btn-primary" type="submit">Create</button>
     </form>
   </div>
@@ -49,9 +49,29 @@ export default {
       this.title = '';
       this.content = '';
       this.ingredients = [];
+      this.thumbnailFile = null;
+      this.imageFiles = [];
     },
-    updateThumbnailFile(thumbnailFile) {
-      this.thumbnailFile = thumbnailFile;
+    addIngredient(value) {
+      this.ingredients.push(value);
+    },
+    removeIngredient(index) {
+      // NOTE: When setting elements in an array, arr[index] = 0,
+      // you must call a function like splice so that vuejs can register
+      // the change event
+      this.ingredients.splice(index, 1);
+    },
+    updateIngredient(index, value) {
+      this.ingredients.splice(index, 1, value);
+    },
+    addImageFile(file) {
+      this.imageFiles.push(file);
+    },
+    removeImageFile(index) {
+      this.imageFiles.splice(index, 1);
+    },
+    updateImageFile(index, file) {
+      this.imageFiles.splice(index, 1, file);
     },
   },
   components: {

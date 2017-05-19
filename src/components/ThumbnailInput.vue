@@ -3,7 +3,7 @@
     <p>Thumbnail (125px by 125px)</p>
     <div v-if="showBrowse">
       <div>
-        {{ thumbnailFilename }}
+        {{ thumbnailFile ? thumbnailFile.name : '' }}
       </div>
       <label class="btn btn-secondary">
         Browse <input id="thumbnailFileInput" type="file" accept=".jpg" hidden @change="thumbnailFileChange">
@@ -19,34 +19,28 @@ export default {
   name: 'thumbnail-input',
   data() {
     return {
-      thumbnailFile: null,
-      thumbnailFilename: '',
       showBrowse: false,
     };
   },
+  props: [
+    'thumbnailFile',
+  ],
   methods: {
-    updateThumbnailFile(thumbnailFile) {
-      this.$emit('updateThumbnailFile', thumbnailFile);
-    },
     thumbnailFileChange(e) {
-      this.thumbnailFilename = '';
-      this.thumbnailFile = null;
+      let thumbnailFile = null;
 
       if (e.target.files.length > 0) {
-        this.thumbnailFile = e.target.files[0];
-        this.thumbnailFilename = this.thumbnailFile.name;
+        thumbnailFile = e.target.files[0];
       }
 
-      this.updateThumbnailFile(this.thumbnailFile);
+      this.$emit('update:thumbnailFile', thumbnailFile);
     },
     addThumbnail() {
       this.showBrowse = true;
     },
     removeThumbnail() {
       this.showBrowse = false;
-      this.thumbnailFilename = '';
-      this.thumbnailFile = null;
-      this.updateThumbnailFile(this.thumbnailFile);
+      this.$emit('update:thumbnailFile', null);
       document.getElementById('thumbnailFileInput').value = null;
     },
   },

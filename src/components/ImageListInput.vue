@@ -1,9 +1,9 @@
 <template>
   <div class="form-group">
-    <p>ImageFiles</p>
+    <p>Images</p>
     <div v-for="(image, index) in imageFiles">
       <div>
-        {{ imageNames[index] }}
+        {{ imageFiles[index] ? imageFiles[index].name : '' }}
       </div>
       <label class="btn btn-secondary">
         Browse <input type="file" accept=".jpg" hidden @change="updateImageFile($event, index)"/>
@@ -20,30 +20,21 @@ export default {
   props: [
     'imageFiles',
   ],
-  data() {
-    return {
-      imageNames: [],
-    };
-  },
   methods: {
     addImage() {
-      this.imageFiles.push(null);
-      this.imageNames.push('');
+      this.$emit('addImageFile', null);
     },
     removeImage(index) {
-      this.imageFiles.splice(index, 1);
-      this.imageNames.splice(index, 1);
+      this.$emit('removeImageFile', index);
     },
     updateImageFile(e, index) {
-      // NOTE: When setting elements in an array, arr[index] = 0,
-      // you must call a function like splice so that vuejs can register
-      // the change event
-      this.imageFiles.splice(index, 1, null);
-      this.imageNames.splice(index, 1, e.target.value.split('\\').pop());
+      let imageFile = null;
 
       if (e.target.files.length > 0) {
-        this.imageFiles.splice(index, 1, e.target.files[0]);
+        imageFile = e.target.files[0];
       }
+
+      this.$emit('updateImageFile', index, imageFile);
     },
   },
 };

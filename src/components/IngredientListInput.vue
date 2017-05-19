@@ -2,7 +2,7 @@
   <div class="form-group">
     <p>Ingredients</p>
     <div class="input-group" v-for="(ingredient, index) in ingredients">
-      <input v-model="ingredients[index]" class="form-control" type="text"/>
+      <input :value="ingredients[index]" @input="updateIngredient(index, $event.target.value)" class="form-control" type="text"/>
       <span class="input-group-btn">
         <button class="btn btn-danger" type="button" @click="removeIngredient(index)">Remove</button>
       </span>
@@ -19,10 +19,13 @@ export default {
   ],
   methods: {
     addIngredient() {
-      this.ingredients.push('');
+      this.$emit('addIngredient', '');
     },
     removeIngredient(index) {
-      this.ingredients.splice(index, 1);
+      this.$emit('removeIngredient', index);
+    },
+    updateIngredient(index, value) {
+      this.$emit('updateIngredient', index, value);
     },
   },
 };
