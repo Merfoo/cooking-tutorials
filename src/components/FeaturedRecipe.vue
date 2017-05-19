@@ -3,7 +3,7 @@
     <div class="card-block">
       <img v-if="thumbnailUrl" :src="thumbnailUrl" :alt="thumbnailAlt" class="recipe-img img-thumbnail float-right">
       <h5 class="card-title">{{ title }}</h5>
-      <router-link :to="recipeUrl" class="btn btn-primary">
+      <router-link :to="recipeUrl" class="btn btn-primary router-button">
         View Recipe
       </router-link>
     </div>
@@ -23,8 +23,8 @@ export default {
     };
   },
   mounted() {
-    recipe.getTitle(this.recipeKey).then((recipeData) => {
-      this.title = recipeData.title;
+    recipe.getTitle(this.recipeKey).then((title) => {
+      this.title = title;
     });
 
     recipe.getThumbnailUrl(this.recipeKey).then((url) => {
@@ -50,5 +50,9 @@ export default {
 .recipe-img {
   width: 125px;
   height: 125px;
+}
+
+.router-button {
+  margin-top: 50px;
 }
 </style>

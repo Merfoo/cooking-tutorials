@@ -1,7 +1,7 @@
 import { database, storage } from '@/assets/js/firebase/index';
 
 export default {
-  create(userId, title, content, ingredients, thumbnailFile, images) {
+  create(userId, title, content, ingredients, thumbnailFile, images, imageCaptions) {
     const ref = database.ref();
     const storageRef = storage.ref();
     const recipeKey = ref.child('recipes').push({ userId }).key;
@@ -17,6 +17,7 @@ export default {
     }
 
     const imageFilenames = [];
+    const validImageCaptions = [];
 
     for (let imageIndex = 0; imageIndex < images.length; imageIndex++) {
       const image = images[imageIndex];
@@ -25,12 +26,14 @@ export default {
         const filename = `${Date.now()}-${image.name}`;
 
         imageFilenames.push(filename);
+        validImageCaptions.push(imageCaptions[imageIndex]);
         storageRef.child(`${recipeKey}/images/${filename}`).put(image);
       }
     }
 
     if (imageFilenames.length > 0) {
       ref.child(`recipeImageFilenames/${recipeKey}`).set({ imageFilenames });
+      ref.child(`recipeImageCaptions/${recipeKey}`).set({ imageCaptions: validImageCaptions });
     }
   },
   get(recipeKey) {
@@ -65,9 +68,7 @@ export default {
       const ref = database.ref();
 
       ref.child(`recipeTitles/${recipeKey}`).once('value').then((titleData) => {
-        resolve({
-          title: titleData.val().title,
-        });
+        resolve(titleData.val().title);
       }, (error) => {
         console.log(error);
         reject(error);
@@ -97,6 +98,16 @@ export default {
         Promise.all(promises).then((urls) => {
           resolve(urls);
         });
+      });
+    });
+  },
+  getImageCaptions(recipeKey) {
+    return new Promise((resolve, reject) => {
+      database.ref().child(`recipeImageCaptions/${recipeKey}`).once('value').then((imageCaptionsData) => {
+        resolve(imageCaptionsData.val().imageCaptions);
+      }, (error) => {
+        console.log(error);
+        reject(error);
       });
     });
   },
