@@ -39,7 +39,7 @@ export default {
     };
   },
   mounted() {
-    const stripe = Stripe('pk_live_3DFtbj06CtQyZ7I0IQoabJl4');
+    const stripe = Stripe('pk_live_pOtbnOvh0CqYx3jNBzeZTtBW');
     const elements = stripe.elements();
     const cardStyle = {
       base: {

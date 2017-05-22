@@ -24,7 +24,6 @@ export default {
   methods: {
     donated() {
       this.showSuccess = true;
-      console.log('why is this so hard');
     },
   },
 };
