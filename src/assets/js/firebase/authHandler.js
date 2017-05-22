@@ -11,7 +11,10 @@ const attachAuthHandler = () => new Promise((resolve, reject) => {
     // New user signed in
     if (user && (curUser === null || curUser.uid !== user.uid)) {
       store.dispatch('setUser', user);
-    } else if (user === null && curUser) { // User signed out
+    }
+
+    // User signed out
+    else if (user === null && curUser) {
       store.dispatch('setUser', null);
       router.push({ path: '/' });
     }

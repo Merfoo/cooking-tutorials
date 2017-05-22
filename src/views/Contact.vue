@@ -1,21 +1,23 @@
 <template>
   <div class="container">
-    <div class="alert alert-success" role="alert">
+    <div v-if="showSuccess" class="alert alert-success" role="alert">
       Message sent!
     </div>
-    <div class="alert alert-danger" role="alert">
+    <div v-if="showDanger" class="alert alert-danger" role="alert">
       Don't forget to do the reCAPTCHA!
     </div>
     <div id="message"></div>
     <h2>Contact Us</h2>
     <form @submit.prevent="onSubmit">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input v-model="name" class="form-control" type="text" name="name" placeholder="First and last name" maxlength="20" required/>
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input v-model="email" class="form-control" type="email" name="email" placeholder="Email to respond to" maxlength="50" required/>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="name">Name</label>
+          <input v-model="name" class="form-control" type="text" name="name" placeholder="First and last name" maxlength="20" required/>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="email">Email</label>
+          <input v-model="email" class="form-control" type="email" name="email" placeholder="Email to respond to" maxlength="50" required/>
+        </div>
       </div>
       <div class="form-group">
         <label for="content">Content</label>
@@ -42,6 +44,8 @@ export default {
       name: '',
       email: '',
       content: '',
+      showSuccess: false,
+      showDanger: false,
     };
   },
   components: {
@@ -56,23 +60,23 @@ export default {
         content: this.content,
         'g-recaptcha-response': grecaptcha.getResponse(),
       }).done((data) => {
-        $('.alert').hide();
+        this.showSuccess = false;
+        this.showDanger = false;
 
         if (data.success) {
           this.name = '';
           this.email = '';
           this.content = '';
-          $('.alert-success').show();
-        } else {
-          $('.alert-danger').show();
+          this.showSuccess = true;
+        }
+
+        else {
+          this.showDanger = true;
         }
       });
 
       grecaptcha.reset();
     },
-  },
-  mounted() {
-    $('.alert').hide();
   },
 };
 </script>

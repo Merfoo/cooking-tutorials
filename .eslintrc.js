@@ -24,6 +24,7 @@ module.exports = {
   },
   // add your custom rules here
   'rules': {
+    'brace-style': ['error', 'stroustrup'],
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'func-names': ['error', 'never'],
     'no-param-reassign': ['error', { 'props': false }],

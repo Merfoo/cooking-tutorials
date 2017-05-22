@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from '@/views/Home';
 import About from '@/views/About';
 import Contact from '@/views/Contact';
+import Donate from '@/views/Donate';
 import Login from '@/views/Login';
 import Policies from '@/views/Policies';
 import Account from '@/views/Account';
@@ -28,6 +29,11 @@ const router = new Router({
       path: '/contact',
       name: 'Contact',
       component: Contact,
+    },
+    {
+      path: '/donate',
+      name: 'Donate',
+      component: Donate,
     },
     {
       path: '/login',
@@ -71,7 +77,9 @@ router.beforeEach((to, from, next) => {
         redirect: to.fullPath,
       },
     });
-  } else {
+  }
+
+  else {
     next();
   }
 });

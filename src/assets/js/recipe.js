@@ -48,7 +48,9 @@ export default {
 
         if (ingredients) {
           ingredients = ingredients.ingredients;
-        } else {
+        }
+
+        else {
           ingredients = [];
         }
 
