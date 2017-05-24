@@ -2,9 +2,28 @@
   <div>
     <form id="payment-form">
       <div class="row">
+        <div class="col-md-12">
+          <p>
+          Help support the longevity and continued development of this website, donations
+          go towards the cost of maintaining the server for this website. Card information is
+          never sent or stored on our server. Payments are transferred securely using 
+          <a href="https://stripe.com/about">Stripe</a>, an online service trusted by thousands
+          of other companies for making online transactions.
+          </p>
+        </div>
         <div class="form-group col-md-6">
           <label for="card-holder">Name</label>
           <input v-model="name" name="card-holder" class="form-control" type="text" placeholder="Jane Doe" required/>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="email">Email</label>
+          <input v-model="email" name="email" class="form-control" type="email" placeholder="example@email.com" required/>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="card-element">Credit or Debit card</label>
+          <div id="card-element">
+          </div>
+          <div v-if="errorMessage" id="card-errors" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
         </div>
         <div class="form-group col-md-6">
           <label for="charge-amount">Amount</label>
@@ -12,12 +31,6 @@
             <span class="input-group-addon">$</span>
             <input v-model="chargeAmount" name="charge-amount" class="form-control" type="number" min="1.00" step="0.01" required/>
           </div>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="card-element">Credit or Debit card</label>
-          <div id="card-element">
-          </div>
-          <div v-if="errorMessage" id="card-errors" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
         </div>
       </div>
       <button id="submitButton" class="btn btn-primary" type="submit">Donate</button>
@@ -34,6 +47,7 @@ export default {
   data() {
     return {
       name: '',
+      email: '',
       chargeAmount: 1.00,
       errorMessage: '',
     };
@@ -71,6 +85,7 @@ export default {
         else {
           $.post('/donate', {
             stripeToken: result.token.id,
+            email: this.email,
             chargeAmount: this.chargeAmount * 100,
           }).done((error) => {
             if (error) {
@@ -78,8 +93,9 @@ export default {
             }
 
             else {
-              this.$emit('donated');
+              this.$emit('donated', this.name, this.email);
               this.name = '';
+              this.email = '';
               this.chargeAmount = 1.00;
               card.clear();
             }
