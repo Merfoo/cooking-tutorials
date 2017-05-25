@@ -1,10 +1,17 @@
 <template>
   <div class="container">
+    <div v-if="showSuccess" class="alert alert-success" role="alert">
+      {{ successMessage }}
+    </div>
     <h2>Create</h2>
     <form @submit.prevent="create">
       <div class="form-group">
         <label for="new-recipe-title">Title</label>
         <input class="form-control" type="text" name="new-recipe-title" v-model="title" required/>
+      </div>
+      <div class="form-group">
+        <label for="recipe-description">Description</label>
+        <input class="form-control" type="text" name="recipe-description" v-model="description" required/>
       </div>
       <div class="form-group">
         <label for="new-recipe-content">Content</label>
@@ -29,11 +36,14 @@ export default {
   data() {
     return {
       title: '',
+      description: '',
       content: '',
       ingredients: [],
       thumbnailFile: null,
       imageFiles: [],
       imageCaptions: [],
+      showSuccess: false,
+      successMessage: '',
     };
   },
   methods: {
@@ -42,6 +52,7 @@ export default {
         this.$store.getters.user.uid,
         this.$store.getters.user.displayName,
         this.title,
+        this.description,
         this.content,
         this.ingredients,
         this.thumbnailFile,
@@ -49,7 +60,10 @@ export default {
         this.imageCaptions,
       );
 
+      this.showSuccess = true;
+      this.successMessage = `Recipe "${this.title}" created!`;
       this.title = '';
+      this.description = '';
       this.content = '';
       this.ingredients = [];
       this.thumbnailFile = null;

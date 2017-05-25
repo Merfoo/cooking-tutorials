@@ -2,6 +2,7 @@
   <div class="container">
     <div class="recipe-container">
       <h2>{{ title }}</h2>
+      <p>{{ description }}</p>
       <p>{{ content }}</p>
       <div class="ingredients-container">
         <h5>Ingredients</h5>
@@ -30,6 +31,7 @@ export default {
   data() {
     return {
       title: '',
+      description: '',
       content: '',
       ingredients: [],
       comments: [],
@@ -39,6 +41,7 @@ export default {
     update(recipeKey, oldRecipeKey) {
       recipe.get(recipeKey).then((recipeData) => {
         this.title = recipeData.title;
+        this.description = recipeData.description;
         this.content = recipeData.content;
         this.ingredients = recipeData.ingredients;
       });

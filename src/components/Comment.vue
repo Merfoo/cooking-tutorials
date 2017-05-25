@@ -25,7 +25,7 @@ export default {
       return this.comment.content;
     },
     commentDate() {
-      return `${moment(this.createdAt).format('MMM Do YYYY, h:mm a')}`;
+      return `${moment(this.comment.createdAt).format('MMM Do YYYY, h:mm a')}`;
     },
   },
 };

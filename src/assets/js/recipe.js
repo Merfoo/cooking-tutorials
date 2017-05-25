@@ -1,7 +1,17 @@
 import { firebase, database, storage } from '@/assets/js/firebase/index';
 
 export default {
-  create(userId, username, title, content, ingredients, thumbnailFile, images, imageCaptions) {
+  create(
+    userId,
+    username,
+    title,
+    description,
+    content,
+    ingredients,
+    thumbnailFile,
+    images,
+    imageCaptions,
+  ) {
     const ref = database.ref();
     const storageRef = storage.ref();
     const filteredIngredients = ingredients.filter(entry => /\S/.test(entry));
@@ -13,6 +23,7 @@ export default {
     }).key;
 
     ref.child(`recipeTitles/${recipeKey}`).set({ title });
+    ref.child(`recipeDescriptions/${recipeKey}`).set({ description });
     ref.child(`recipeContents/${recipeKey}`).set({ content });
     ref.child(`recipeIngredients/${recipeKey}`).set({ ingredients: filteredIngredients });
     ref.child(`userRecipes/${userId}/${recipeKey}`).set({ recipeKey });
@@ -45,10 +56,16 @@ export default {
     return new Promise((resolve, reject) => {
       const ref = database.ref();
       const titlePromise = ref.child(`recipeTitles/${recipeKey}`).once('value');
+      const descriptionPromise = ref.child(`recipeDescriptions/${recipeKey}`).once('value');
       const contentPromise = ref.child(`recipeContents/${recipeKey}`).once('value');
       const ingredientsPromise = ref.child(`recipeIngredients/${recipeKey}`).once('value');
 
-      Promise.all([titlePromise, contentPromise, ingredientsPromise]).then((recipeData) => {
+      Promise.all([
+        titlePromise,
+        descriptionPromise,
+        contentPromise,
+        ingredientsPromise,
+      ]).then((recipeData) => {
         let ingredients = recipeData[2].val();
 
         if (ingredients) {
@@ -61,7 +78,8 @@ export default {
 
         resolve({
           title: recipeData[0].val().title,
-          content: recipeData[1].val().content,
+          description: recipeData[1].val().description,
+          content: recipeData[2].val().content,
           ingredients,
         });
       }, (error) => {
