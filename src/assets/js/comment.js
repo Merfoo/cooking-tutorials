@@ -1,12 +1,18 @@
-import { database } from '@/assets/js/firebase/index';
+import { firebase, database } from '@/assets/js/firebase/index';
 
 export default {
-  create(username, content, recipeKey) {
+  create(userId, username, content, recipeKey) {
     const ref = database.ref();
 
-    ref.child(`recipeComments/${recipeKey}`).push({
+    const commentKey = ref.child(`recipeComments/${recipeKey}`).push({
+      userId,
       username,
       content,
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+    }).key;
+
+    ref.child(`userComments/${userId}/${commentKey}`).set({
+      recipeKey,
     });
   },
   get(recipeKey, commentKey) {

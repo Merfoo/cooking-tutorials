@@ -3,7 +3,7 @@
     <div class="card">
       <img class="card-img-top" :src="userImgSrc" :alt="userImgAlt">
       <div class="card-block">
-        <h4 class="card-title">{{ userName }}</h4>
+        <h4 class="card-title">{{ username }}</h4>
         <p class="card-text">{{ userEmail }}</p>
         <button class="btn btn-primary" @click="signOut">Sign Out</button>
       </div>
@@ -21,9 +21,9 @@ export default {
       return this.$store.getters.user.photoURL;
     },
     userImgAlt() {
-      return `${this.userName}'s picture`;
+      return `${this.username}'s picture`;
     },
-    userName() {
+    username() {
       return this.$store.getters.user.displayName;
     },
     userEmail() {

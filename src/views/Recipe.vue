@@ -12,6 +12,7 @@
       <ImageCarousel :recipeKey="recipeKey"></ImageCarousel>
     </div>
     <div class="comments">
+      <h5>Comments</h5>
       <CreateComment :recipeKey="recipeKey" class="create-comment"></CreateComment>
       <Comment v-for="comment in comments" :comment="comment" :key="comment"></Comment>
     </div>

@@ -1,20 +1,27 @@
 import store from '@/store';
 import router from '@/router';
+import user from '@/assets/js/user';
 import { firebase } from './index';
 
 const attachAuthHandler = () => new Promise((resolve, reject) => {
   let attached = false;
 
-  firebase.auth().onAuthStateChanged((user) => {
+  firebase.auth().onAuthStateChanged((newUser) => {
     const curUser = store.getters.user;
 
     // New user signed in
-    if (user && (curUser === null || curUser.uid !== user.uid)) {
-      store.dispatch('setUser', user);
+    if (newUser && (curUser === null || curUser.uid !== newUser.uid)) {
+      store.dispatch('setUser', newUser);
+
+      user.exists(newUser.uid).then((exists) => {
+        if (!exists) {
+          user.create(newUser.uid, newUser.displayName, newUser.photoURL);
+        }
+      });
     }
 
     // User signed out
-    else if (user === null && curUser) {
+    else if (newUser === null && curUser) {
       store.dispatch('setUser', null);
       router.push({ path: '/' });
     }

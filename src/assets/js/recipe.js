@@ -1,16 +1,21 @@
-import { database, storage } from '@/assets/js/firebase/index';
+import { firebase, database, storage } from '@/assets/js/firebase/index';
 
 export default {
-  create(userId, title, content, ingredients, thumbnailFile, images, imageCaptions) {
+  create(userId, username, title, content, ingredients, thumbnailFile, images, imageCaptions) {
     const ref = database.ref();
     const storageRef = storage.ref();
-    const recipeKey = ref.child('recipes').push({ userId }).key;
     const filteredIngredients = ingredients.filter(entry => /\S/.test(entry));
+
+    const recipeKey = ref.child('recipes').push({
+      userId,
+      username,
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+    }).key;
 
     ref.child(`recipeTitles/${recipeKey}`).set({ title });
     ref.child(`recipeContents/${recipeKey}`).set({ content });
     ref.child(`recipeIngredients/${recipeKey}`).set({ ingredients: filteredIngredients });
-    ref.child(`users/${userId}/recipesMade/${recipeKey}`).set({ recipeKey });
+    ref.child(`userRecipes/${userId}/${recipeKey}`).set({ recipeKey });
 
     if (thumbnailFile) {
       storageRef.child(`${recipeKey}/thumbnail.jpg`).put(thumbnailFile);

@@ -28,7 +28,13 @@ export default {
   },
   methods: {
     create() {
-      comment.create(this.$store.getters.user.displayName, this.content, this.recipeKey);
+      comment.create(
+        this.$store.getters.user.uid,
+        this.$store.getters.user.displayName,
+        this.content,
+        this.recipeKey,
+      );
+
       this.content = '';
     },
     signIn() {

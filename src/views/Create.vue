@@ -40,6 +40,7 @@ export default {
     create() {
       recipe.create(
         this.$store.getters.user.uid,
+        this.$store.getters.user.displayName,
         this.title,
         this.content,
         this.ingredients,

@@ -9,6 +9,7 @@ import Policies from '@/views/Policies';
 import Account from '@/views/Account';
 import Create from '@/views/Create';
 import Recipe from '@/views/Recipe';
+import User from '@/views/User';
 import store from '@/store/index';
 
 Vue.use(Router);
@@ -65,6 +66,11 @@ const router = new Router({
       path: '/recipe/:id',
       name: 'Recipe',
       component: Recipe,
+    },
+    {
+      path: '/user/:id',
+      name: 'User',
+      component: User,
     },
   ],
 });
