@@ -26,6 +26,23 @@ export default {
       });
     });
   },
+  getAllRecipes(userId) {
+    return new Promise((resolve, reject) => {
+      database.ref().child(`userRecipes/${userId}`).once('value').then((recipesData) => {
+        const recipes = [];
+        const recipesVal = recipesData.val();
+
+        if (recipesVal) {
+          Object.keys(recipesVal).forEach((key) => {
+            recipes.push(key);
+          });
+        }
+        resolve(recipes);
+      }, (error) => {
+        reject(error);
+      });
+    });
+  },
   exists(userId) {
     return new Promise((resolve, reject) => {
       database.ref().child(`users/${userId}`).once('value').then((data) => {

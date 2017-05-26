@@ -2,10 +2,10 @@
   <div class="card">
     <div class="card-block">
       <img v-if="thumbnailUrl" :src="thumbnailUrl" :alt="thumbnailAlt" class="recipe-img img-thumbnail float-right">
-      <h5 class="card-title">{{ title }}</h5>
-      <router-link :to="recipeUrl" class="btn btn-primary router-button">
-        View Recipe
-      </router-link>
+      <h4 class="card-title">{{ title }}</h4>
+      <router-link :to="userLink" class="card-subtitle">{{ username }}</router-link>
+      <p class="card-text">{{ description }}</p>
+      <router-link :to="recipeLink" class="btn btn-primary router-button">View Recipe</router-link>
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@
 import recipe from '@/assets/js/recipe';
 
 export default {
-  name: 'featured-recipe',
+  name: 'recipe-card',
   props: ['recipeKey'],
   data() {
     return {
@@ -37,7 +37,10 @@ export default {
     });
   },
   computed: {
-    recipeUrl() {
+    userLink() {
+      return `/user/${this.userId}`;
+    },
+    recipeLink() {
       return `/recipe/${this.recipeKey}`;
     },
     thumbnailAlt() {
@@ -55,9 +58,5 @@ export default {
 .recipe-img {
   width: 125px;
   height: 125px;
-}
-
-.router-button {
-  margin-top: 50px;
 }
 </style>

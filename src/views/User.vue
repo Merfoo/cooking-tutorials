@@ -7,12 +7,17 @@
         <p class="card-text">{{ joinedText }}</p>
       </div>
     </div>
+    <div class="recipes-container">
+      <h3>Recipes Made</h3>
+      <RecipeCard v-for="recipeKey in recipeKeys" :recipeKey="recipeKey" :key="recipeKey"></RecipeCard>
+    </div>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
 import user from '@/assets/js/user';
+import RecipeCard from '@/components/RecipeCard';
 
 export default {
   name: 'user',
@@ -21,7 +26,11 @@ export default {
       username: '',
       profilePhotoUrl: null,
       createdAt: null,
+      recipeKeys: [],
     };
+  },
+  components: {
+    RecipeCard,
   },
   methods: {
     update(userId) {
@@ -29,6 +38,10 @@ export default {
         this.username = userData.username;
         this.profilePhotoUrl = userData.profilePhotoUrl;
         this.createdAt = userData.createdAt;
+      });
+
+      user.getAllRecipes(userId).then((recipes) => {
+        this.recipeKeys = recipes;
       });
     },
   },
@@ -56,5 +69,9 @@ export default {
 <style scoped>
 .card-img-top {
   width: 10rem;
+}
+
+.recipes-container {
+  margin-top: 20px;
 }
 </style>

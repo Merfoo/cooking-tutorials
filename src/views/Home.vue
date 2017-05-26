@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-      <h4>Featured Recipes</h4>
+      <h2>Featured Recipes</h2>
       <div class="row">
         <div class="col-md-6 recipe-container" v-for="recipeKey in recipeKeys">
-          <FeaturedRecipe class="recipe" :recipeKey="recipeKey" :key="recipeKey">Hello</FeaturedRecipe>
+          <RecipeCard class="recipe" :recipeKey="recipeKey" :key="recipeKey"></RecipeCard>
         </div>
      </div>
   </div>
@@ -11,7 +11,7 @@
 
 <script>
 import recipe from '@/assets/js/recipe';
-import FeaturedRecipe from '@/components/FeaturedRecipe';
+import RecipeCard from '@/components/RecipeCard';
 
 export default {
   name: 'home',
@@ -26,7 +26,7 @@ export default {
     });
   },
   components: {
-    FeaturedRecipe,
+    RecipeCard,
   },
 };
 </script>
