@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { firebase, database, storage } from '@/assets/js/firebase/index';
 
 export default {
@@ -117,5 +118,26 @@ export default {
     // NOTE: This will remove all callbacks for the 'value' event
     // since no callback was specified in "off"
     database.ref().child(`recipeComments/${recipeKey}`).off('value');
+  },
+  createScript(recipe, recipeData) {
+    const $script = document.createElement('script');
+
+    $script.setAttribute('type', 'application/ld+json');
+    $script.text = JSON.stringify({
+      '@context': 'http://schema.org/',
+      '@type': 'Recipe',
+      name: recipe.title,
+      image: recipe.thumbnailUrl,
+      author: {
+        '@type': 'Person',
+        name: recipe.username,
+      },
+      datePublished: moment(recipe.createdAt).format('MMM Do YYYY'),
+      description: recipe.description,
+      recipeIngredient: recipeData.ingredients,
+      recipeInstructions: recipe.instructions,
+    });
+
+    return $script;
   },
 };

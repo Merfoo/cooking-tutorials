@@ -17,6 +17,8 @@
       <CreateComment :recipeKey="recipeKey" class="create-comment"></CreateComment>
       <Comment v-for="comment in comments" :comment="comment" :key="comment"></Comment>
     </div>
+    <div id="script-container">
+    </div>
   </div>
 </template>
 
@@ -44,28 +46,37 @@ export default {
     };
   },
   methods: {
-    update(recipeKey, oldRecipeKey) {
-      recipe.get(this.recipeKey).then((recipeData) => {
-        this.userId = recipeData.userId;
-        this.username = recipeData.username;
-        this.title = recipeData.title;
-        this.description = recipeData.description;
-        this.thumbnailUrl = recipeData.thumbnailUrl;
-        this.createdAt = recipeData.createdAt;
-      });
+    update(newRecipeKey, oldRecipeKey) {
+      const recipePromise = recipe.get(newRecipeKey);
+      const recipeDataPromise = recipe.getData(newRecipeKey);
 
-      recipe.getData(recipeKey).then((recipeData) => {
-        this.instructions = recipeData.instructions;
-        this.ingredients = recipeData.ingredients;
-        this.imageCaptions = recipeData.imageCaptions;
-        this.imageUrls = recipeData.imageUrls;
+      Promise.all([recipePromise, recipeDataPromise]).then((data) => {
+        const $scriptContainer = document.getElementById('script-container');
+
+        while ($scriptContainer.lastChild) {
+          $scriptContainer.removeChild($scriptContainer.lastChild);
+        }
+
+        $scriptContainer.appendChild(recipe.createScript(data[0], data[1]));
+
+        this.userId = data[0].userId;
+        this.username = data[0].username;
+        this.title = data[0].title;
+        this.description = data[0].description;
+        this.thumbnailUrl = data[0].thumbnailUrl;
+        this.createdAt = data[0].createdAt;
+
+        this.instructions = data[1].instructions;
+        this.ingredients = data[1].ingredients;
+        this.imageCaptions = data[1].imageCaptions;
+        this.imageUrls = data[1].imageUrls;
       });
 
       if (oldRecipeKey) {
         recipe.unwatchComments(oldRecipeKey);
       }
 
-      recipe.watchComments(recipeKey, (data) => {
+      recipe.watchComments(newRecipeKey, (data) => {
         this.comments = [];
 
         Object.keys(data).forEach((key) => {
