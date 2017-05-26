@@ -14,8 +14,8 @@
         <input class="form-control" type="text" name="recipe-description" v-model="description" required/>
       </div>
       <div class="form-group">
-        <label for="new-recipe-content">Content</label>
-        <textarea class="form-control" type="textarea" name="new-recipe-content" v-model="content" required/>
+        <label for="new-recipe-instructions">Instructions</label>
+        <textarea class="form-control" type="textarea" name="new-recipe-instructions" v-model="instructions" required/>
       </div>
       <IngredientListInput :ingredients="ingredients" @addIngredient="addIngredient" @removeIngredient="removeIngredient" @updateIngredient="updateIngredient"></IngredientListInput>
       <ThumbnailInput :thumbnailFile.sync="thumbnailFile"></ThumbnailInput>
@@ -37,7 +37,7 @@ export default {
     return {
       title: '',
       description: '',
-      content: '',
+      instructions: '',
       ingredients: [],
       thumbnailFile: null,
       imageFiles: [],
@@ -48,23 +48,24 @@ export default {
   },
   methods: {
     create() {
-      recipe.create(
-        this.$store.getters.user.uid,
-        this.$store.getters.user.displayName,
-        this.title,
-        this.description,
-        this.content,
-        this.ingredients,
-        this.thumbnailFile,
-        this.imageFiles,
-        this.imageCaptions,
-      );
+      recipe.create({
+        id: this.$store.getters.user.uid,
+        username: this.$store.getters.user.displayName,
+      }, {
+        title: this.title,
+        description: this.description,
+        instructions: this.instructions,
+        ingredients: this.ingredients,
+        thumbnailFile: this.thumbnailFile,
+        imageFiles: this.imageFiles,
+        imageCaptions: this.imageCaptions,
+      });
 
       this.showSuccess = true;
       this.successMessage = `Recipe "${this.title}" created!`;
       this.title = '';
       this.description = '';
-      this.content = '';
+      this.instructions = '';
       this.ingredients = [];
       this.thumbnailFile = null;
       this.imageFiles = [];

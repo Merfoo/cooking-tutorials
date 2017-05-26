@@ -24,35 +24,22 @@
 </template>
 
 <script>
-import recipe from '@/assets/js/recipe';
-
 export default {
   name: 'image-carousel',
   props: [
-    'recipeKey',
+    'imageCaptions',
+    'imageUrls',
   ],
-  data() {
-    return {
-      imageUrls: [],
-      imageCaptions: [],
-    };
-  },
-  mounted() {
-    const imagePromises = [];
-
-    imagePromises.push(recipe.getImageUrls(this.recipeKey));
-    imagePromises.push(recipe.getImageCaptions(this.recipeKey));
-
-    Promise.all(imagePromises).then((imageData) => {
-      this.imageUrls = imageData[0];
-      this.imageCaptions = imageData[1];
-
-      // First element needs active class attached
-      this.$nextTick(() => {
-        document.querySelector('li[data-slide-to]').classList.add('active');
-        document.querySelector('.carousel-item').classList.add('active');
-      });
-    });
+  watch: {
+    imageUrls(newImageUrls) {
+      if (newImageUrls.length > 0) {
+        // First element needs active class attached
+        this.$nextTick(() => {
+          document.querySelector('li[data-slide-to]').classList.add('active');
+          document.querySelector('.carousel-item').classList.add('active');
+        });
+      }
+    },
   },
 };
 </script>

@@ -3,14 +3,14 @@
     <div class="recipe-container">
       <h2>{{ title }}</h2>
       <p>{{ description }}</p>
-      <p>{{ content }}</p>
+      <p>{{ instructions }}</p>
       <div class="ingredients-container">
         <h5>Ingredients</h5>
         <ul class="list-group">
           <li v-for="ingredient in ingredients" class="list-group-item">{{ ingredient }}</li>
         </ul>
       </div>
-      <ImageCarousel :recipeKey="recipeKey"></ImageCarousel>
+      <ImageCarousel :imageCaptions="imageCaptions" :imageUrls="imageUrls"></ImageCarousel>
     </div>
     <div class="comments">
       <h5>Comments</h5>
@@ -30,20 +30,35 @@ export default {
   name: 'recipe',
   data() {
     return {
+      userId: '',
+      username: '',
       title: '',
       description: '',
-      content: '',
+      thumbnailUrl: '',
+      createdAt: '',
+      instructions: '',
       ingredients: [],
+      imageCaptions: [],
+      imageUrls: [],
       comments: [],
     };
   },
   methods: {
     update(recipeKey, oldRecipeKey) {
-      recipe.get(recipeKey).then((recipeData) => {
+      recipe.get(this.recipeKey).then((recipeData) => {
+        this.userId = recipeData.userId;
+        this.username = recipeData.username;
         this.title = recipeData.title;
         this.description = recipeData.description;
-        this.content = recipeData.content;
+        this.thumbnailUrl = recipeData.thumbnailUrl;
+        this.createdAt = recipeData.createdAt;
+      });
+
+      recipe.getData(recipeKey).then((recipeData) => {
+        this.instructions = recipeData.instructions;
         this.ingredients = recipeData.ingredients;
+        this.imageCaptions = recipeData.imageCaptions;
+        this.imageUrls = recipeData.imageUrls;
       });
 
       if (oldRecipeKey) {

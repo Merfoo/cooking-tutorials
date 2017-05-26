@@ -18,17 +18,22 @@ export default {
   props: ['recipeKey'],
   data() {
     return {
+      userId: '',
+      username: '',
       title: '',
-      thumbnailUrl: null,
+      description: '',
+      thumbnailUrl: '',
+      createdAt: '',
     };
   },
   mounted() {
-    recipe.getTitle(this.recipeKey).then((title) => {
-      this.title = title;
-    });
-
-    recipe.getThumbnailUrl(this.recipeKey).then((url) => {
-      this.thumbnailUrl = url;
+    recipe.get(this.recipeKey).then((recipeData) => {
+      this.userId = recipeData.userId;
+      this.username = recipeData.username;
+      this.title = recipeData.title;
+      this.description = recipeData.description;
+      this.thumbnailUrl = recipeData.thumbnailUrl;
+      this.createdAt = recipeData.createdAt;
     });
   },
   computed: {

@@ -22,7 +22,6 @@ export default {
           createdAt: dataVal.createdAt,
         });
       }, (error) => {
-        console.log(error);
         reject(error);
       });
     });
@@ -32,7 +31,6 @@ export default {
       database.ref().child(`users/${userId}`).once('value').then((data) => {
         resolve(!!data.val());
       }, (error) => {
-        console.log(error);
         reject(error);
       });
     });

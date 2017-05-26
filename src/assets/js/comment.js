@@ -27,7 +27,6 @@ export default {
           content: commentDataVal.content,
         });
       }, (error) => {
-        console.log(error);
         reject(error);
       });
     });
