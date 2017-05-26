@@ -25,7 +25,7 @@ export default {
 
     if (recipe.thumbnailFile) {
       const thumbnailFilename = recipe.thumbnailFile.name;
-      const uploadTask = storageRef.child(`${recipeKey}/thumbnails/${thumbnailFilename}`).put(recipe.thumbnailFile);
+      const uploadTask = storageRef.child(`${user.id}/${recipeKey}/thumbnails/${thumbnailFilename}`).put(recipe.thumbnailFile);
 
       ref.child(`recipeThumbnailFilenames/${recipeKey}`).set({ thumbnailFilename });
 
@@ -43,7 +43,7 @@ export default {
       for (let imageIndex = 0; imageIndex < recipe.imageFiles.length; imageIndex++) {
         const imageFile = recipe.imageFiles[imageIndex];
         const imageFilename = `${Date.now()}-${imageFile.name}`;
-        const uploadTask = storageRef.child(`${recipeKey}/images/${imageFilename}`).put(imageFile);
+        const uploadTask = storageRef.child(`${user.id}/${recipeKey}/images/${imageFilename}`).put(imageFile);
 
         imageFilenames.push(imageFilename);
 
