@@ -43,6 +43,15 @@ export default {
       });
     });
   },
+  getProfilePhotoUrl(userId) {
+    return new Promise((resolve, reject) => {
+      database.ref().child(`users/${userId}`).once('value').then((data) => {
+        resolve(data.val().profilePhotoUrl);
+      }, (error) => {
+        reject(error);
+      });
+    });
+  },
   exists(userId) {
     return new Promise((resolve, reject) => {
       database.ref().child(`users/${userId}`).once('value').then((data) => {

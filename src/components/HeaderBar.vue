@@ -20,6 +20,7 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <router-link to="/account" class="dropdown-item">Account</router-link>
             <router-link to="/create" class="dropdown-item">Create Recipe</router-link>
+            <button class="btn btn-primary dropdown-item" @click="signOut">Sign Out</button>
           </div>
         </li>
       </ul>
@@ -28,6 +29,8 @@
 </template>
 
 <script>
+import { firebase } from '@/assets/js/firebase/index';
+
 export default {
   name: 'header-bar',
   computed: {
@@ -39,6 +42,13 @@ export default {
     },
     username() {
       return this.$store.getters.user.displayName;
+    },
+  },
+  methods: {
+    signOut() {
+      firebase.auth().signOut().then(() => {
+        this.$router.push('home');
+      });
     },
   },
 };
