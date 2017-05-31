@@ -2,30 +2,39 @@ import { firebase, database } from '@/assets/js/firebase/index';
 
 export default {
   create(userId, username, content, recipeKey) {
-    const ref = database.ref();
+    return new Promise((resolveCreate, rejectCreate) => {
+      const ref = database.ref();
+      let commentKey = null;
 
-    const commentKey = ref.child(`recipeComments/${recipeKey}`).push({
-      userId,
-      username,
-      content,
-      createdAt: firebase.database.ServerValue.TIMESTAMP,
-    }).key;
+      const createSuccessHandler = () => {
+        resolveCreate();
+      };
 
-    ref.child(`userComments/${userId}/${commentKey}`).set({
-      recipeKey,
+      const createErrorHandler = (error) => {
+        if (commentKey) {
+          ref.child(`recipeComments/${recipeKey}/${commentKey}`).remove();
+          ref.child(`userComments/${userId}/${commentKey}`).remove();
+        }
+
+        rejectCreate(error);
+      };
+
+      ref.child(`userComments/${userId}`).push({ recipeKey }).then((data) => {
+        commentKey = data.key;
+
+        ref.child(`recipeComments/${recipeKey}/${commentKey}`).set({
+          userId,
+          username,
+          content,
+          createdAt: firebase.database.ServerValue.TIMESTAMP,
+        }).then(createSuccessHandler, createErrorHandler);
+      }, createErrorHandler);
     });
   },
   get(recipeKey, commentKey) {
     return new Promise((resolve, reject) => {
-      const ref = database.ref();
-
-      ref.child(`recipeComments/${recipeKey}/${commentKey}`).once('value').then((commentData) => {
-        const commentDataVal = commentData.val();
-
-        resolve({
-          username: commentDataVal.username,
-          content: commentDataVal.content,
-        });
+      database.ref().child(`recipeComments/${recipeKey}/${commentKey}`).once('value').then((commentData) => {
+        resolve(commentData.val());
       }, (error) => {
         reject(error);
       });

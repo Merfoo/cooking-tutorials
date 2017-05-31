@@ -14,13 +14,7 @@ export default {
   get(userId) {
     return new Promise((resolve, reject) => {
       database.ref().child(`users/${userId}`).once('value').then((data) => {
-        const dataVal = data.val();
-
-        resolve({
-          username: dataVal.username,
-          profilePhotoUrl: dataVal.profilePhotoUrl,
-          createdAt: dataVal.createdAt,
-        });
+        resolve(data.val());
       }, (error) => {
         reject(error);
       });
