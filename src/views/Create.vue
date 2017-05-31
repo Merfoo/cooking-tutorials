@@ -1,7 +1,12 @@
 <template>
   <div class="container">
-    <div v-if="showSuccess" class="alert alert-success" role="alert">
+    <Loader id="loader" :show="showLoader"></Loader>
+    <div v-if="showLoader" class="faded"></div>
+    <div v-if="successMessage" class="alert alert-success" role="alert">
       {{ successMessage }}
+    </div>
+    <div v-if="errorMessage" class="alert alert-danger" role="alert">
+      {{ errorMessage }}
     </div>
     <h2>Create</h2>
     <form @submit.prevent="create">
@@ -30,6 +35,7 @@ import recipe from '@/assets/js/recipe';
 import IngredientListInput from '@/components/IngredientListInput';
 import ThumbnailInput from '@/components/ThumbnailInput';
 import ImageListInput from '@/components/ImageListInput';
+import Loader from '@/components/Loader';
 
 export default {
   name: 'create',
@@ -42,12 +48,15 @@ export default {
       thumbnailFile: null,
       imageFiles: [],
       imageCaptions: [],
-      showSuccess: false,
       successMessage: '',
+      errorMessage: '',
+      showLoader: false,
     };
   },
   methods: {
     create() {
+      this.showLoader = true;
+
       recipe.create({
         id: this.$store.getters.user.uid,
         username: this.$store.getters.user.displayName,
@@ -59,17 +68,22 @@ export default {
         thumbnailFile: this.thumbnailFile,
         imageFiles: this.imageFiles,
         imageCaptions: this.imageCaptions,
+      }).then(() => {
+        this.showLoader = false;
+        this.successMessage = `Recipe "${this.title}" created!`;
+        this.errorMessage = '';
+        this.title = '';
+        this.description = '';
+        this.instructions = '';
+        this.ingredients = [];
+        this.thumbnailFile = null;
+        this.imageFiles = [];
+        this.imageCaptions = [];
+      }, (error) => {
+        this.showLoader = false;
+        this.successMessage = '';
+        this.errorMessage = error;
       });
-
-      this.showSuccess = true;
-      this.successMessage = `Recipe "${this.title}" created!`;
-      this.title = '';
-      this.description = '';
-      this.instructions = '';
-      this.ingredients = [];
-      this.thumbnailFile = null;
-      this.imageFiles = [];
-      this.imageCaptions = [];
     },
     addIngredient(value) {
       this.ingredients.push(value);
@@ -102,6 +116,29 @@ export default {
     IngredientListInput,
     ThumbnailInput,
     ImageListInput,
+    Loader,
   },
 };
 </script>
+
+<style scoped>
+#loader {
+  position: absolute;
+  z-index: 1001;
+  width: 100px;
+  height: 100px;
+  top: 50%;
+  left: 50%;
+  margin: -50px -50px;
+}
+
+.faded {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+</style>

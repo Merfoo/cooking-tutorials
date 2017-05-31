@@ -67,9 +67,9 @@ export default {
         this.createdAt = data[0].createdAt;
 
         this.instructions = data[1].instructions;
-        this.ingredients = data[1].ingredients;
-        this.imageCaptions = data[1].imageCaptions;
-        this.imageUrls = data[1].imageUrls;
+        this.ingredients = data[1].ingredients || [];
+        this.imageCaptions = data[1].imageCaptions || [];
+        this.imageUrls = data[1].imageUrls || [];
       });
 
       if (oldRecipeKey) {
