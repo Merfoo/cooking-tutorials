@@ -3,7 +3,7 @@
     <div v-if="showSuccess" class="alert alert-success" role="alert">
       Message sent!
     </div>
-    <div v-if="showDanger" class="alert alert-danger" role="alert">
+    <div v-if="showError" class="alert alert-danger" role="alert">
       Don't forget to do the reCAPTCHA!
     </div>
     <div id="message"></div>
@@ -45,7 +45,7 @@ export default {
       email: '',
       content: '',
       showSuccess: false,
-      showDanger: false,
+      showError: false,
     };
   },
   components: {
@@ -61,7 +61,7 @@ export default {
         'g-recaptcha-response': grecaptcha.getResponse(),
       }).done((data) => {
         this.showSuccess = false;
-        this.showDanger = false;
+        this.showError = false;
 
         if (data.success) {
           this.name = '';
@@ -71,7 +71,7 @@ export default {
         }
 
         else {
-          this.showDanger = true;
+          this.showError = true;
         }
       });
 

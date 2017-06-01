@@ -1,7 +1,7 @@
 import { firebase, database } from '@/assets/js/firebase/index';
 
 export default {
-  create(userId, username, content, recipeKey) {
+  create(comment, recipeKey) {
     return new Promise((resolveCreate, rejectCreate) => {
       const ref = database.ref();
       let commentKey = null;
@@ -13,19 +13,19 @@ export default {
       const createErrorHandler = (error) => {
         if (commentKey) {
           ref.child(`recipeComments/${recipeKey}/${commentKey}`).remove();
-          ref.child(`userComments/${userId}/${commentKey}`).remove();
+          ref.child(`userComments/${comment.userId}/${commentKey}`).remove();
         }
 
         rejectCreate(error);
       };
 
-      ref.child(`userComments/${userId}`).push({ recipeKey }).then((data) => {
+      ref.child(`userComments/${comment.userId}`).push({ recipeKey }).then((data) => {
         commentKey = data.key;
 
         ref.child(`recipeComments/${recipeKey}/${commentKey}`).set({
-          userId,
-          username,
-          content,
+          userId: comment.userId,
+          username: comment.username,
+          content: comment.content,
           createdAt: firebase.database.ServerValue.TIMESTAMP,
         }).then(createSuccessHandler, createErrorHandler);
       }, createErrorHandler);

@@ -15,7 +15,7 @@ function removeEmptyEntries(recipe) {
 }
 
 export default {
-  create(user, recipe) {
+  create(recipe) {
     return new Promise((resolveCreate, rejectCreate) => {
       removeEmptyEntries(recipe);
       const ref = database.ref();
@@ -32,22 +32,22 @@ export default {
           ref.child(`recipeThumbnailFilenames/${recipeKey}`).remove();
           ref.child(`recipeData/${recipeKey}`).remove();
           ref.child(`recipeImageFilenames/${recipeKey}`).remove();
-          ref.child(`userRecipes/${user.id}`).remove();
+          ref.child(`userRecipes/${recipe.userId}`).remove();
         }
 
         rejectCreate(error);
       };
 
       // Create entry in user recipes with recipe key
-      ref.child(`userRecipes/${user.id}/`).push({ userId: user.id }).then((data) => {
+      ref.child(`userRecipes/${recipe.userId}/`).push({ userId: recipe.userId }).then((data) => {
         const createPromises = [];
         recipeKey = data.key;
 
         // Create recipe entry
         createPromises.push(new Promise((resolveRecipe, rejectRecipe) => {
           ref.child(`recipes/${recipeKey}`).set({
-            userId: user.id,
-            username: user.username,
+            userId: recipe.userId,
+            username: recipe.username,
             title: recipe.title,
             description: recipe.description,
             createdAt: firebase.database.ServerValue.TIMESTAMP,
@@ -60,7 +60,7 @@ export default {
 
           if (recipe.thumbnailFile) {
             const thumbnailFilename = recipe.thumbnailFile.name;
-            const uploadTask = storageRef.child(`${user.id}/${recipeKey}/thumbnails/${thumbnailFilename}`).put(recipe.thumbnailFile);
+            const uploadTask = storageRef.child(`${recipe.userId}/${recipeKey}/thumbnails/${thumbnailFilename}`).put(recipe.thumbnailFile);
 
             uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null, (error) => {
               rejectThumbnail(error);
@@ -98,7 +98,7 @@ export default {
             for (let imageIndex = 0; imageIndex < recipe.imageFiles.length; imageIndex++) {
               const imageFile = recipe.imageFiles[imageIndex];
               const imageFilename = `${Date.now()}-${imageFile.name}`;
-              const uploadTask = storageRef.child(`${user.id}/${recipeKey}/images/${imageFilename}`).put(imageFile);
+              const uploadTask = storageRef.child(`${recipe.userId}/${recipeKey}/images/${imageFilename}`).put(imageFile);
 
               imageFilenames.push(imageFilename);
 
@@ -182,7 +182,7 @@ export default {
     // since no callback was specified in "off"
     database.ref().child(`recipeComments/${recipeKey}`).off('value');
   },
-  createScript(recipe, recipeData) {
+  createScript(recipe) {
     const $script = document.createElement('script');
 
     $script.setAttribute('type', 'application/ld+json');
@@ -197,7 +197,7 @@ export default {
       },
       datePublished: moment(recipe.createdAt).format('MMM Do YYYY'),
       description: recipe.description,
-      recipeIngredient: recipeData.ingredients,
+      recipeIngredient: recipe.ingredients,
       recipeInstructions: recipe.instructions,
     });
 

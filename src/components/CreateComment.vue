@@ -2,7 +2,7 @@
   <div>
     <form v-if="signedIn" @submit.prevent="create">
       <div class="form-group">
-        <textarea class="form-control" type="textarea" v-model="content" placeholder="Comment..." required/>
+        <textarea class="form-control" type="textarea" v-model="comment.content" placeholder="Comment..." required/>
       </div>
       <button class="btn btn-primary" type="submit">Comment</button>
     </form>
@@ -18,7 +18,11 @@ export default {
   props: ['recipeKey'],
   data() {
     return {
-      content: '',
+      comment: {
+        userId: this.$store.getters.user.uid,
+        username: this.$store.getters.user.displayName,
+        content: '',
+      },
     };
   },
   computed: {
@@ -28,14 +32,9 @@ export default {
   },
   methods: {
     create() {
-      comment.create(
-        this.$store.getters.user.uid,
-        this.$store.getters.user.displayName,
-        this.content,
-        this.recipeKey,
-      );
-
-      this.content = '';
+      comment.create(this.comment, this.recipeKey).then(() => {
+        this.comment.content = '';
+      });
     },
     signIn() {
       this.$router.push({

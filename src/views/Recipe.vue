@@ -1,16 +1,16 @@
 <template>
   <div class="container">
     <div class="recipe-container">
-      <h2>{{ title }}</h2>
-      <p>{{ description }}</p>
-      <p>{{ instructions }}</p>
+      <h2>{{ recipe.title }}</h2>
+      <p>{{ recipe.description }}</p>
+      <p>{{ recipe.instructions }}</p>
       <div class="ingredients-container">
         <h5>Ingredients</h5>
         <ul class="list-group">
-          <li v-for="ingredient in ingredients" class="list-group-item">{{ ingredient }}</li>
+          <li v-for="ingredient in recipe.ingredients" class="list-group-item">{{ ingredient }}</li>
         </ul>
       </div>
-      <ImageCarousel :imageCaptions="imageCaptions" :imageUrls="imageUrls"></ImageCarousel>
+      <ImageCarousel :imageCaptions="recipe.imageCaptions" :imageUrls="recipe.imageUrls"></ImageCarousel>
     </div>
     <div class="comments">
       <h5>Comments</h5>
@@ -32,16 +32,7 @@ export default {
   name: 'recipe',
   data() {
     return {
-      userId: '',
-      username: '',
-      title: '',
-      description: '',
-      thumbnailUrl: '',
-      createdAt: '',
-      instructions: '',
-      ingredients: [],
-      imageCaptions: [],
-      imageUrls: [],
+      recipe: {},
       comments: [],
     };
   },
@@ -51,25 +42,15 @@ export default {
       const recipeDataPromise = recipe.getData(newRecipeKey);
 
       Promise.all([recipePromise, recipeDataPromise]).then((data) => {
+        this.recipe = Object.assign({}, data[0], data[1]);
+
         const $scriptContainer = document.getElementById('script-container');
 
         while ($scriptContainer.lastChild) {
           $scriptContainer.removeChild($scriptContainer.lastChild);
         }
 
-        $scriptContainer.appendChild(recipe.createScript(data[0], data[1]));
-
-        this.userId = data[0].userId;
-        this.username = data[0].username;
-        this.title = data[0].title;
-        this.description = data[0].description;
-        this.thumbnailUrl = data[0].thumbnailUrl;
-        this.createdAt = data[0].createdAt;
-
-        this.instructions = data[1].instructions;
-        this.ingredients = data[1].ingredients || [];
-        this.imageCaptions = data[1].imageCaptions || [];
-        this.imageUrls = data[1].imageUrls || [];
+        $scriptContainer.appendChild(recipe.createScript(this.recipe));
       });
 
       if (oldRecipeKey) {
