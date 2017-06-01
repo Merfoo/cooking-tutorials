@@ -56,26 +56,18 @@ export default {
 
         // Create recipe thumbnail filename entry, update recipe thumbnail file url entry
         createPromises.push(new Promise((resolveThumbnail, rejectThumbnail) => {
-          const thumbnailPromises = [];
+          const thumbnailFilename = recipe.thumbnailFile.name;
+          const uploadTask = storageRef.child(`${recipe.userId}/${recipeKey}/thumbnails/${thumbnailFilename}`).put(recipe.thumbnailFile);
 
-          if (recipe.thumbnailFile) {
-            const thumbnailFilename = recipe.thumbnailFile.name;
-            const uploadTask = storageRef.child(`${recipe.userId}/${recipeKey}/thumbnails/${thumbnailFilename}`).put(recipe.thumbnailFile);
+          uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null, (error) => {
+            rejectThumbnail(error);
+          }, () => {
+            const thumbnailPromises = [];
 
-            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null, (error) => {
-              rejectThumbnail(error);
-            }, () => {
-              thumbnailPromises.push(ref.child(`recipes/${recipeKey}`).update({ thumbnailUrl: uploadTask.snapshot.downloadURL }));
-              thumbnailPromises.push(ref.child(`recipeThumbnailFilenames/${recipeKey}`).update({ thumbnailFilename }));
-              Promise.all(thumbnailPromises).then(resolveThumbnail, rejectThumbnail);
-            });
-          }
-
-          else {
-            thumbnailPromises.push(ref.child(`recipes/${recipeKey}`).update({ thumbnailUrl: false }));
-            thumbnailPromises.push(ref.child(`recipeThumbnailFilenames/${recipeKey}`).update({ thumbnailFilename: false }));
+            thumbnailPromises.push(ref.child(`recipes/${recipeKey}`).update({ thumbnailUrl: uploadTask.snapshot.downloadURL }));
+            thumbnailPromises.push(ref.child(`recipeThumbnailFilenames/${recipeKey}`).update({ thumbnailFilename }));
             Promise.all(thumbnailPromises).then(resolveThumbnail, rejectThumbnail);
-          }
+          });
         }));
 
         // Create recipe data entry
@@ -89,40 +81,32 @@ export default {
 
         // Create recipe image filename entry, update recipe data image files urls
         createPromises.push(new Promise((resolveImageFiles, rejectImageFiles) => {
-          const recipePromises = [];
+          const imageFilenames = [];
+          const uploadPromises = [];
 
-          if (recipe.imageFiles.length > 0) {
-            const imageFilenames = [];
-            const uploadPromises = [];
+          for (let imageIndex = 0; imageIndex < recipe.imageFiles.length; imageIndex++) {
+            const imageFile = recipe.imageFiles[imageIndex];
+            const imageFilename = `${Date.now()}-${imageFile.name}`;
+            const uploadTask = storageRef.child(`${recipe.userId}/${recipeKey}/images/${imageFilename}`).put(imageFile);
 
-            for (let imageIndex = 0; imageIndex < recipe.imageFiles.length; imageIndex++) {
-              const imageFile = recipe.imageFiles[imageIndex];
-              const imageFilename = `${Date.now()}-${imageFile.name}`;
-              const uploadTask = storageRef.child(`${recipe.userId}/${recipeKey}/images/${imageFilename}`).put(imageFile);
+            imageFilenames.push(imageFilename);
 
-              imageFilenames.push(imageFilename);
-
-              uploadPromises.push(new Promise((resolveUpload, rejectUpload) => {
-                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null, (error) => {
-                  rejectUpload(error);
-                }, () => {
-                  resolveUpload(uploadTask.snapshot.downloadURL);
-                });
-              }));
-            }
-
-            Promise.all(uploadPromises).then((imageUrls) => {
-              recipePromises.push(ref.child(`recipeData/${recipeKey}`).update({ imageUrls }));
-              recipePromises.push(ref.child(`recipeImageFilenames/${recipeKey}`).update({ imageFilenames }));
-              Promise.all(recipePromises).then(resolveImageFiles, rejectImageFiles);
-            });
+            uploadPromises.push(new Promise((resolveUpload, rejectUpload) => {
+              uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null, (error) => {
+                rejectUpload(error);
+              }, () => {
+                resolveUpload(uploadTask.snapshot.downloadURL);
+              });
+            }));
           }
 
-          else {
-            recipePromises.push(ref.child(`recipeData/${recipeKey}`).update({ imageUrls: false }));
-            recipePromises.push(ref.child(`recipeImageFilenames/${recipeKey}`).update({ imageFilenames: false }));
+          Promise.all(uploadPromises).then((imageUrls) => {
+            const recipePromises = [];
+
+            recipePromises.push(ref.child(`recipeData/${recipeKey}`).update({ imageUrls }));
+            recipePromises.push(ref.child(`recipeImageFilenames/${recipeKey}`).update({ imageFilenames }));
             Promise.all(recipePromises).then(resolveImageFiles, rejectImageFiles);
-          }
+          });
         }));
 
         Promise.all(createPromises).then(createSuccessHandler, createErrorHandler);
@@ -202,5 +186,31 @@ export default {
     });
 
     return $script;
+  },
+  isValid(recipe) {
+    const ingredients = recipe.ingredients.filter(ingredient => /\S/.test(ingredient));
+
+    if (ingredients.length === 0) {
+      return false;
+    }
+
+    if (!recipe.thumbnailFile) {
+      return false;
+    }
+
+    let validImageFiles = false;
+
+    for (let index = 0; index < recipe.imageFiles.length; index++) {
+      if (recipe.imageFiles[index]) {
+        validImageFiles = true;
+        break;
+      }
+    }
+
+    if (!validImageFiles) {
+      return false;
+    }
+
+    return true;
   },
 };

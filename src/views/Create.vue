@@ -59,18 +59,24 @@ export default {
   },
   methods: {
     create() {
-      this.showLoader = true;
+      if (recipe.isValid(this.recipe)) {
+        this.showLoader = true;
 
-      recipe.create(this.recipe).then(() => {
-        this.showLoader = false;
-        this.successMessage = `Recipe "${this.recipe.title}" created!`;
-        this.errorMessage = '';
-        this.resetForm();
-      }, (error) => {
-        this.showLoader = false;
-        this.successMessage = '';
-        this.errorMessage = error;
-      });
+        recipe.create(this.recipe).then(() => {
+          this.showLoader = false;
+          this.successMessage = `Recipe "${this.recipe.title}" created!`;
+          this.errorMessage = '';
+          this.resetForm();
+        }, (error) => {
+          this.showLoader = false;
+          this.successMessage = '';
+          this.errorMessage = error;
+        });
+      }
+
+      else {
+        this.errorMessage = 'Recipes must include a title, description, instructions, ingredients, thumbnail, and images!';
+      }
     },
     resetForm() {
       this.recipe.title = '';
