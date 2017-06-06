@@ -92,7 +92,11 @@ var webpackConfig = merge(baseWebpackConfig, {
       {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
-        ignore: ['.*']
+        ignore: ['.*', 'SEO/*']
+      },
+      {
+        from: path.resolve(__dirname, '../static/SEO'),
+        to: config.build.assetsRoot
       }
     ])
   ]
