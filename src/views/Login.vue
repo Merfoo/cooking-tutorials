@@ -17,7 +17,7 @@ export default {
     }
 
     authUI.start('#firebase-auth-container', {
-      signInSuccessUrl: `/#${redirectPath}`,
+      signInSuccessUrl: redirectPath,
       signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         firebase.auth.FacebookAuthProvider.PROVIDER_ID,
