@@ -4,7 +4,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <router-link to="/" class="navbar-brand">
-      <img class="logo" src="../assets/imgs/cooking-tutorials-logo.svg"/>
+      <img class="logo" src="../assets/imgs/cooking-tutorials-logo.svg" alt="Cooking Tutorials Logo"/>
       Cooking Tutorials
     </router-link>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -14,7 +14,7 @@
         </li>
         <li v-else class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img id="userImg" :src="userImgSrc">
+            <img id="userImg" :src="userImgSrc" alt="User profile photo">
             {{ username }}
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
