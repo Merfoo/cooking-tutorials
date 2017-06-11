@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import slug from 'slugify';
 import recipe from '@/assets/js/recipe';
 import ImageCarousel from '@/components/ImageCarousel';
 import CreateComment from '@/components/CreateComment';
@@ -51,6 +52,7 @@ export default {
         }
 
         $scriptContainer.appendChild(recipe.createScript(this.recipe));
+        window.history.replaceState(null, null, `/recipe/${newRecipeKey}/${slug(this.recipe.title).toLowerCase()}`);
       });
 
       if (oldRecipeKey) {

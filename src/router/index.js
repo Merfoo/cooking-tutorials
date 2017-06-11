@@ -64,7 +64,8 @@ const router = new Router({
       },
     },
     {
-      path: '/recipe/:id',
+      path: '/recipe/:id/',
+      alias: '/recipe/:id/:name',
       name: 'Recipe',
       component: Recipe,
     },
