@@ -28,5 +28,8 @@ export default {
       this.successMessage = `Thank you for your donation ${name}! A receipt has been sent to ${email}`;
     },
   },
+  mounted() {
+    document.title = 'Donate';
+  },
 };
 </script>

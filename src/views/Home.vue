@@ -24,6 +24,8 @@ export default {
     recipe.getLatestRecipes().then((recipeKeys) => {
       this.recipeKeys = recipeKeys;
     });
+
+    document.title = 'Home';
   },
   components: {
     RecipeCard,

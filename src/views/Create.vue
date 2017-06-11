@@ -120,6 +120,9 @@ export default {
     ImageListInput,
     Loader,
   },
+  mounted() {
+    document.title = 'Create Recipe';
+  },
 };
 </script>
 

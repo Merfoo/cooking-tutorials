@@ -27,6 +27,9 @@ export default {
       return this.$store.getters.user.email;
     },
   },
+  mounted() {
+    document.title = 'Account';
+  },
 };
 </script>
 

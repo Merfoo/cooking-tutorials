@@ -29,6 +29,16 @@
           The customer is responsible the shipping and handling fee of returning items.
         </p>
       </article>
+      <article id="privacy-policy">
+        <h2>Privacy Policy</h2>
+        <p>
+          Only minimal information shall be used for interactions between the user and
+          the website. Information for 
+          <a href="https://www.google.com/analytics/#?modal_active=none">Google Analytics</a>
+          to help monitor traffic will also be collected. We do not sell user information to
+          3rd parties.
+        </p>
+      </article>
       <article id="dcma">
         <h2>Digital Millennium Copyright Act</h2>
         <p>
@@ -50,5 +60,8 @@
 <script>
 export default {
   name: 'policies',
+  mounted() {
+    document.title = 'Policies';
+  },
 };
 </script>

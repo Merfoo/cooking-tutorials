@@ -2,6 +2,7 @@
   <div class="container">
     <article>
       <h2>About</h2>
+      <p>Cooking Tutorials, a library of quick and easy recipes!</p>
       <p>
         Cooking Tutorials is a website that contains easy to follow food recipes submitted
         people. The website is developed using <a href="https://vuejs.org/">Vue.js</a>
@@ -18,5 +19,8 @@
 <script>
 export default {
   name: 'about',
+  mounted() {
+    document.title = 'About';
+  },
 };
 </script>

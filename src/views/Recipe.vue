@@ -53,6 +53,7 @@ export default {
 
         $scriptContainer.appendChild(recipe.createScript(this.recipe));
         window.history.replaceState(null, null, `/recipe/${newRecipeKey}/${slug(this.recipe.title).toLowerCase()}`);
+        document.title = this.recipe.title;
       });
 
       if (oldRecipeKey) {

@@ -25,6 +25,8 @@ export default {
       ],
       tosUrl: 'cookingtutorials.net',
     });
+
+    document.title = 'Login';
   },
 };
 </script>
