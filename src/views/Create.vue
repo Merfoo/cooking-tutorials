@@ -9,6 +9,9 @@
       {{ errorMessage }}
     </div>
     <h2>Create</h2>
+    <p>
+      To create a recipe enter in all the information below. Recipes must have a title, description, instructions, ingredients, thumbnail, and images!
+    </p>
     <form @submit.prevent="create">
       <div class="form-group">
         <label for="new-recipe-title">Title</label>

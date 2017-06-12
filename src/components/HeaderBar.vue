@@ -8,6 +8,11 @@
       Cooking Tutorials
     </router-link>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <router-link to="/create" class="nav-link">Create Recipe</router-link>
+        </li>
+      </ul>
       <ul class="navbar-nav ml-auto">
         <li v-if="!signedIn" class="nav-item">
           <router-link to="/login" class="nav-link">Sign In</router-link>
@@ -19,7 +24,6 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <router-link to="/account" class="dropdown-item">Account</router-link>
-            <router-link to="/create" class="dropdown-item">Create Recipe</router-link>
             <button class="btn btn-primary dropdown-item" @click="signOut">Sign Out</button>
           </div>
         </li>
@@ -58,6 +62,11 @@ export default {
 .logo {
   width: 50px;
   height: 50px;
+}
+
+.nav-item {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 #userImg {
