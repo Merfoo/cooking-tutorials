@@ -19,8 +19,8 @@ export default {
   data() {
     return {
       comment: {
-        userId: this.$store.getters.user.uid,
-        username: this.$store.getters.user.displayName,
+        userId: null,
+        username: '',
         content: '',
       },
     };
@@ -32,6 +32,9 @@ export default {
   },
   methods: {
     create() {
+      this.comment.userId = this.$store.getters.user.uid;
+      this.comment.username = this.$store.getters.user.displayName;
+
       comment.create(this.comment, this.recipeKey).then(() => {
         this.comment.content = '';
       });

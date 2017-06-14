@@ -30,8 +30,8 @@
         <div class="form-group">
           <Recaptcha></Recaptcha>
         </div>
-        <button class="btn btn-primary" type="submit">Submit</button>
       </fieldset>
+      <button class="btn btn-primary" type="submit">Submit</button>
     </form>
   </div>
 </template>

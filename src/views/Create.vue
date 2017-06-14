@@ -13,21 +13,25 @@
       To create a recipe enter in all the information below. Recipes must have a title, description, instructions, ingredients, thumbnail, and images!
     </p>
     <form @submit.prevent="create">
-      <div class="form-group">
-        <label for="new-recipe-title">Title</label>
-        <input class="form-control" type="text" name="new-recipe-title" v-model="recipe.title" required/>
-      </div>
-      <div class="form-group">
-        <label for="recipe-description">Description</label>
-        <input class="form-control" type="text" name="recipe-description" v-model="recipe.description" required/>
-      </div>
-      <div class="form-group">
-        <label for="new-recipe-instructions">Instructions</label>
-        <textarea class="form-control" type="textarea" name="new-recipe-instructions" v-model="recipe.instructions" required/>
-      </div>
-      <IngredientListInput :ingredients="recipe.ingredients" @addIngredient="addIngredient" @removeIngredient="removeIngredient" @updateIngredient="updateIngredient"></IngredientListInput>
-      <ThumbnailInput :thumbnailFile.sync="recipe.thumbnailFile"></ThumbnailInput>
-      <ImageListInput :imageFiles="recipe.imageFiles" :imageCaptions="recipe.imageCaptions" @addImageFile="addImageFile" @removeImageFile="removeImageFile" @updateImageFile="updateImageFile" @updateImageCaption="updateImageCaption"></ImageListInput>
+      <fieldset>
+        <div class="form-group">
+          <label for="new-recipe-title">Title</label>
+          <input class="form-control" type="text" name="new-recipe-title" v-model="recipe.title" required/>
+        </div>
+        <div class="form-group">
+          <label for="recipe-description">Description</label>
+          <input class="form-control" type="text" name="recipe-description" v-model="recipe.description" required/>
+        </div>
+        <div class="form-group">
+          <label for="new-recipe-instructions">Instructions</label>
+          <textarea class="form-control" type="textarea" name="new-recipe-instructions" v-model="recipe.instructions" rows="7" required/>
+        </div>
+      </fieldset>
+      <fieldset>
+        <IngredientListInput :ingredients="recipe.ingredients" @addIngredient="addIngredient" @removeIngredient="removeIngredient" @updateIngredient="updateIngredient"></IngredientListInput>
+        <ThumbnailInput :thumbnailFile.sync="recipe.thumbnailFile"></ThumbnailInput>
+        <ImageListInput :imageFiles="recipe.imageFiles" :imageCaptions="recipe.imageCaptions" @addImageFile="addImageFile" @removeImageFile="removeImageFile" @updateImageFile="updateImageFile" @updateImageCaption="updateImageCaption"></ImageListInput>
+      </fieldset>
       <button class="btn btn-primary" type="submit">Create</button>
     </form>
   </div>
