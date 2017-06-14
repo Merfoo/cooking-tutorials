@@ -20,7 +20,7 @@ export default {
         rejectCreate(error);
       };
 
-      ref.child(`userComments/${comment.userId}`).set({ recipeKey }).then(() => {
+      ref.child(`userComments/${comment.userId}/${commentKey}`).set({ recipeKey }).then(() => {
         ref.child(`recipeComments/${recipeKey}/${commentKey}`).set({
           userId: comment.userId,
           username: comment.username,

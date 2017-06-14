@@ -40,7 +40,7 @@ export default {
       };
 
       // Create entry in user recipes with recipe key
-      ref.child(`userRecipes/${recipe.userId}/`).set({ userId: recipe.userId }).then(() => {
+      ref.child(`userRecipes/${recipe.userId}/${recipeKey}`).set({ userId: recipe.userId }).then(() => {
         const createPromises = [];
 
         // Create recipe entry
