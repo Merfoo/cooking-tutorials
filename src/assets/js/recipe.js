@@ -1,4 +1,5 @@
 import moment from 'moment';
+import shortid from 'shortid';
 import { firebase, database, storage } from '@/assets/js/firebase/index';
 
 // Removes empty ingredients, empty image file and corresponding image captions
@@ -20,7 +21,7 @@ export default {
       removeEmptyEntries(recipe);
       const ref = database.ref();
       const storageRef = storage.ref();
-      let recipeKey = null;
+      const recipeKey = shortid.generate();
 
       const createSuccessHandler = () => {
         resolveCreate();
@@ -39,9 +40,8 @@ export default {
       };
 
       // Create entry in user recipes with recipe key
-      ref.child(`userRecipes/${recipe.userId}/`).push({ userId: recipe.userId }).then((data) => {
+      ref.child(`userRecipes/${recipe.userId}/`).set({ userId: recipe.userId }).then(() => {
         const createPromises = [];
-        recipeKey = data.key;
 
         // Create recipe entry
         createPromises.push(new Promise((resolveRecipe, rejectRecipe) => {
@@ -74,8 +74,8 @@ export default {
         createPromises.push(new Promise((resolveRecipeData, rejectRecipeData) => {
           ref.child(`recipeData/${recipeKey}`).set({
             instructions: recipe.instructions,
-            ingredients: recipe.ingredients.length > 0 ? recipe.ingredients : false,
-            imageCaptions: recipe.imageCaptions.length > 0 ? recipe.imageCaptions : false,
+            ingredients: recipe.ingredients,
+            imageCaptions: recipe.imageCaptions,
           }).then(resolveRecipeData, rejectRecipeData);
         }));
 

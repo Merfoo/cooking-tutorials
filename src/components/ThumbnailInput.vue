@@ -1,27 +1,18 @@
 <template>
   <div class="form-group">
-    <p>Thumbnail (125px by 125px)</p>
-    <div v-if="showBrowse">
-      <div>
-        {{ thumbnailFile ? thumbnailFile.name : '' }}
-      </div>
-      <label class="btn btn-secondary">
-        Browse <input id="thumbnailFileInput" type="file" accept=".jpg" hidden @change="thumbnailFileChange">
-      </label>
-      <button class="btn btn-danger align-top" type="button" @click="removeThumbnail">Remove</button>
+    <h5>Thumbnail (will be displayed as 125px by 125px)</h5>
+    <div class="filename">
+      Filename: {{ thumbnailFile ? thumbnailFile.name : '' }}
     </div>
-    <button v-else class="btn btn-secondary" type="button" @click="addThumbnail">Add</button>
+    <label class="btn btn-secondary">
+      Browse <input id="thumbnailFileInput" type="file" accept=".jpg" hidden @change="thumbnailFileChange">
+    </label>
   </div>
 </template>
 
 <script>
 export default {
   name: 'thumbnail-input',
-  data() {
-    return {
-      showBrowse: false,
-    };
-  },
   props: [
     'thumbnailFile',
   ],
@@ -35,14 +26,12 @@ export default {
 
       this.$emit('update:thumbnailFile', thumbnailFile);
     },
-    addThumbnail() {
-      this.showBrowse = true;
-    },
-    removeThumbnail() {
-      this.showBrowse = false;
-      this.$emit('update:thumbnailFile', null);
-      document.getElementById('thumbnailFileInput').value = null;
-    },
   },
 };
 </script>
+
+<style scoped>
+.filename {
+  margin: 5px 0;
+}
+</style>

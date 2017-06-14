@@ -1,10 +1,11 @@
+import shortid from 'shortid';
 import { firebase, database } from '@/assets/js/firebase/index';
 
 export default {
   create(comment, recipeKey) {
     return new Promise((resolveCreate, rejectCreate) => {
       const ref = database.ref();
-      let commentKey = null;
+      const commentKey = shortid.generate();
 
       const createSuccessHandler = () => {
         resolveCreate();
@@ -19,9 +20,7 @@ export default {
         rejectCreate(error);
       };
 
-      ref.child(`userComments/${comment.userId}`).push({ recipeKey }).then((data) => {
-        commentKey = data.key;
-
+      ref.child(`userComments/${comment.userId}`).set({ recipeKey }).then(() => {
         ref.child(`recipeComments/${recipeKey}/${commentKey}`).set({
           userId: comment.userId,
           username: comment.username,
