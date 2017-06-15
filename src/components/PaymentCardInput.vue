@@ -84,7 +84,7 @@ export default {
         }
 
         else {
-          $.post('/donate', {
+          $.post('/api/donate', {
             stripeToken: result.token.id,
             email: this.email,
             chargeAmount: this.chargeAmount * 100,
