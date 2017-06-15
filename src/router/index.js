@@ -6,6 +6,7 @@ import Contact from '@/views/Contact';
 import Donate from '@/views/Donate';
 import Login from '@/views/Login';
 import Policies from '@/views/Policies';
+import PartnerSites from '@/views/PartnerSites';
 import Account from '@/views/Account';
 import Create from '@/views/Create';
 import Recipe from '@/views/Recipe';
@@ -46,6 +47,11 @@ const router = new Router({
       path: '/policies',
       name: 'Policies',
       component: Policies,
+    },
+    {
+      path: '/partner-sites',
+      name: 'PartnerSites',
+      component: PartnerSites,
     },
     {
       path: '/account',

@@ -6,6 +6,7 @@
           <router-link class="nav-link" to="/about">About</router-link>
           <router-link class="nav-link" to="/policies">Policies</router-link>
           <router-link class="nav-link" to="/contact">Contact</router-link>
+          <router-link class="nav-link" to="/partner-sites">Partner Sites</router-link>          
           <router-link class="nav-link" to="/donate">Donate</router-link>
         </ul>
       </div>
@@ -22,5 +23,9 @@ export default {
 <style scoped>
 .nav-link {
   color: black;
+}
+
+.nav-link:hover {
+  color: gray;
 }
 </style>

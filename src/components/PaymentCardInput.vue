@@ -2,16 +2,6 @@
   <div>
     <form id="payment-form">
       <div class="row">
-        <div class="col-md-12">
-          <p>
-          Help support the longevity and continued development of this website, donations
-          go towards the cost of maintaining the server for this website. Card information is
-          never sent or stored on our server. Payments are transferred securely using 
-          <a href="https://stripe.com/about" target="_blank">Stripe</a>, an online service trusted by thousands
-          of other companies for making online transactions. For information about our return policy go
-          <router-link to="/policies" target="_blank">here</router-link>.
-          </p>
-        </div>
         <div class="form-group col-md-6">
           <label for="card-holder">Name</label>
           <input v-model="name" name="card-holder" class="form-control" type="text" placeholder="Jane Doe" required/>
