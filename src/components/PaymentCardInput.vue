@@ -7,8 +7,9 @@
           Help support the longevity and continued development of this website, donations
           go towards the cost of maintaining the server for this website. Card information is
           never sent or stored on our server. Payments are transferred securely using 
-          <a href="https://stripe.com/about">Stripe</a>, an online service trusted by thousands
-          of other companies for making online transactions.
+          <a href="https://stripe.com/about" target="_blank">Stripe</a>, an online service trusted by thousands
+          of other companies for making online transactions. For information about our return policy go
+          <router-link to="/policies" target="_blank">here</router-link>.
           </p>
         </div>
         <div class="form-group col-md-6">

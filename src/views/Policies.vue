@@ -34,7 +34,7 @@
         <p>
           Only minimal information shall be used for interactions between the user and
           the website. Information for 
-          <a href="https://www.google.com/analytics/#?modal_active=none">Google Analytics</a>
+          <a href="https://www.google.com/analytics/#?modal_active=none" target="_blank">Google Analytics</a>
           to help monitor traffic will also be collected. We do not sell user information to
           3rd parties.
         </p>
@@ -47,10 +47,10 @@
           The act criminalizes the circumvention of electronic and digital copyright protection systems.
         </p>
         <p>
-          A more complete summary of the DCMA can be found <a href="https://www.copyright.gov/reports/studies/dmca/dmca_executive.html">here</a>.
+          A more complete summary of the DCMA can be found <a href="https://www.copyright.gov/reports/studies/dmca/dmca_executive.html" target="_blank">here</a>.
         </p>
         <p>
-          Contact us <router-link to="/contact">here</router-link> to notify us of alleged copyright infringement.
+          Contact us <router-link to="/contact" target="_blank">here</router-link> to notify us of alleged copyright infringement.
         </p>
       </article>
     </div>
