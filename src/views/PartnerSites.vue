@@ -34,3 +34,11 @@
     </p>
   </div>
 </template>
+
+<script>
+export default {
+  mounted() {
+    document.title = 'Partner Sites - Cooking Tutorials';
+  },
+};
+</script>

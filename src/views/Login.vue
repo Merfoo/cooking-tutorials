@@ -26,7 +26,7 @@ export default {
       tosUrl: 'cookingtutorials.net',
     });
 
-    document.title = 'Login';
+    document.title = 'Login - Cooking Tutorials';
   },
 };
 </script>

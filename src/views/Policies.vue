@@ -61,7 +61,7 @@
 export default {
   name: 'policies',
   mounted() {
-    document.title = 'Policies';
+    document.title = 'Policies - Cooking Tutorials';
   },
 };
 </script>

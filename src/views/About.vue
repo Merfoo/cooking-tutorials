@@ -20,7 +20,7 @@
 export default {
   name: 'about',
   mounted() {
-    document.title = 'About';
+    document.title = 'About - Cooking Tutorials';
   },
 };
 </script>

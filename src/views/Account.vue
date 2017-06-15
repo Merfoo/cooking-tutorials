@@ -28,7 +28,7 @@ export default {
     },
   },
   mounted() {
-    document.title = 'Account';
+    document.title = 'Account - Cooking Tutorials';
   },
 };
 </script>

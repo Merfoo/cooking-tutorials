@@ -86,7 +86,7 @@ export default {
     },
   },
   mounted() {
-    document.title = 'Contact Us';
+    document.title = 'Contact Us - Cooking Tutorials';
   },
 };
 </script>

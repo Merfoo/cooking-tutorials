@@ -46,7 +46,7 @@ export default {
     },
   },
   mounted() {
-    document.title = 'Donate';
+    document.title = 'Donate - Cooking Tutorials';
   },
 };
 </script>

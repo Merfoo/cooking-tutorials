@@ -25,7 +25,7 @@ export default {
       this.recipeKeys = recipeKeys;
     });
 
-    document.title = 'Home';
+    document.title = 'Home - Cooking Tutorials';
   },
   components: {
     RecipeCard,

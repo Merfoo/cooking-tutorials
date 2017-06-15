@@ -128,7 +128,7 @@ export default {
     Loader,
   },
   mounted() {
-    document.title = 'Create Recipe';
+    document.title = 'Create Recipe - Cooking Tutorials';
   },
 };
 </script>

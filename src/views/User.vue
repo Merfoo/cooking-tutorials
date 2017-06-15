@@ -38,7 +38,7 @@ export default {
         this.username = userData.username;
         this.profilePhotoUrl = userData.profilePhotoUrl;
         this.createdAt = userData.createdAt;
-        document.title = this.username;
+        document.title = `${this.username} - Cooking Tutorials`;
       });
 
       user.getAllRecipes(userId).then((recipes) => {
