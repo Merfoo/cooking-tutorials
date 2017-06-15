@@ -28,24 +28,24 @@
           <textarea v-model="content" class="form-control" type="textarea" name="content" placeholder="The message you want to send to us" maxlength="500" rows="7" required/>
         </div>
         <div class="form-group">
-          <Recaptcha></Recaptcha>
+          <VueRecaptcha :sitekey="sitekey" ref="invisibleRecaptcha" size="invisible" @verify="onVerify"></VueRecaptcha>
+          <button class="btn btn-primary" type="submit">Submit</button>
         </div>
       </fieldset>
-      <button class="btn btn-primary" type="submit">Submit</button>
     </form>
   </div>
 </template>
 
 <script>
 /* global $ */
-/* global grecaptcha */
 
-import Recaptcha from '@/components/Recaptcha';
+import VueRecaptcha from 'vue-recaptcha';
 
 export default {
   name: 'contact',
   data() {
     return {
+      sitekey: '6LdaiSUUAAAAADe76eOE1iazt27CrYiB1hLnkpe5',
       name: '',
       email: '',
       content: '',
@@ -54,16 +54,18 @@ export default {
     };
   },
   components: {
-    Recaptcha,
+    VueRecaptcha,
   },
   methods: {
-    /* eslint-disable object-shorthand */
-    onSubmit: function () {
-      $.post('/contact', {
+    onSubmit() {
+      this.$refs.invisibleRecaptcha.execute();
+    },
+    onVerify(recaptchaResponse) {
+      $.post('/api/contact-us', {
         name: this.name,
         email: this.email,
         content: this.content,
-        'g-recaptcha-response': grecaptcha.getResponse(),
+        recaptchaResponse,
       }).done((data) => {
         this.showSuccess = false;
         this.showError = false;
@@ -80,7 +82,7 @@ export default {
         }
       });
 
-      grecaptcha.reset();
+      this.$refs.invisibleRecaptcha.reset();
     },
   },
   mounted() {
